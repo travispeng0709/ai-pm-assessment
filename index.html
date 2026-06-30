@@ -147,6 +147,13 @@ blockquote{border-left:2px solid var(--text);padding:.25rem 0 .25rem 1.25rem;mar
 .weight-row .w-label{display:flex;justify-content:space-between;font-size:.825rem;margin-bottom:.25rem}
 .weight-row .w-label .w-val{font-family:var(--font-mono);font-weight:600;color:var(--text)}
 .weight-row input[type=range]{width:100%;accent-color:var(--text);height:3px}
+.weight-pair{margin-bottom:1.1rem;padding-bottom:.8rem;border-bottom:1px dashed var(--border-hairline)}
+.weight-pair:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.wp-title{font-size:.72rem;color:var(--text-tertiary);margin-bottom:.5rem;line-height:1.4;font-family:var(--font-mono)}
+.weight-comp .w-label{opacity:.7}
+.weight-comp .w-label .w-val{color:var(--text-secondary)}
+.w-comp-bar{width:100%;height:3px;background:var(--border-hairline);border-radius:2px;overflow:hidden;margin-top:.1rem}
+.w-comp-fill{height:100%;background:var(--text-tertiary);border-radius:2px;transition:width .15s ease}
 .calc-actions{display:flex;gap:.75rem;margin:1.5rem 0 0}
 .calc-actions button{padding:.55rem 1.5rem;border:none;border-radius:980px;font-size:.875rem;font-weight:400;cursor:pointer;font-family:var(--font-sys);transition:opacity .15s}
 .calc-actions .btn-primary{background:var(--text);color:#fff}
@@ -1177,18 +1184,39 @@ Comate 有效 Token 总消耗 = Σ 各日单日有效 Token</div>
         <div class="calc-row"><label>团队复用与影响（0-20）</label><input type="number" id="f_scoreTeam" value="16" min="0" max="20"><span class="unit">分</span></div>
       </div>
       <div class="calc-panel">
-        <h5>权重配置</h5>
-        <div class="weight-row">
-          <div class="w-label"><span>行为分权重</span><span class="w-val" id="f_wBehaviorDisp">40%</span></div>
-          <input type="range" id="f_wBehavior" min="20" max="60" value="40" step="5">
+        <h5>权重配置（三组互斥，自动补齐）</h5>
+        <div class="weight-pair">
+          <div class="wp-title">最终指数 = 行为分 × W + 产出分 × (1−W)</div>
+          <div class="weight-row">
+            <div class="w-label"><span>行为分权重</span><span class="w-val" id="f_wBehaviorDisp">40%</span></div>
+            <input type="range" id="f_wBehavior" min="0" max="100" value="40" step="5">
+          </div>
+          <div class="weight-row weight-comp">
+            <div class="w-label"><span>产出分权重</span><span class="w-val" id="f_wOutputDisp">60%</span></div>
+            <div class="w-comp-bar"><div class="w-comp-fill" id="f_wOutputBar" style="width:60%"></div></div>
+          </div>
         </div>
-        <div class="weight-row">
-          <div class="w-label"><span>产出分权重</span><span class="w-val" id="f_wUsageDisp">50%</span></div>
-          <input type="range" id="f_wUsage" min="30" max="70" value="50" step="5">
+        <div class="weight-pair">
+          <div class="wp-title">付费渠道使用分 = 使用率 × W + 活跃率 × (1−W)</div>
+          <div class="weight-row">
+            <div class="w-label"><span>付费使用率权重</span><span class="w-val" id="f_wUsageDisp">50%</span></div>
+            <input type="range" id="f_wUsage" min="0" max="100" value="50" step="5">
+          </div>
+          <div class="weight-row weight-comp">
+            <div class="w-label"><span>付费活跃率权重</span><span class="w-val" id="f_wActiveDisp">50%</span></div>
+            <div class="w-comp-bar"><div class="w-comp-fill" id="f_wActiveBar" style="width:50%"></div></div>
+          </div>
         </div>
-        <div class="weight-row">
-          <div class="w-label"><span>Comate 活跃权重</span><span class="w-val" id="f_wComateActiveDisp">60%</span></div>
-          <input type="range" id="f_wComateActive" min="40" max="80" value="60" step="5">
+        <div class="weight-pair">
+          <div class="wp-title">Comate 活跃指数 = 活跃率 × W + 强度 × (1−W)</div>
+          <div class="weight-row">
+            <div class="w-label"><span>Comate 活跃权重</span><span class="w-val" id="f_wComateActiveDisp">60%</span></div>
+            <input type="range" id="f_wComateActive" min="0" max="100" value="60" step="5">
+          </div>
+          <div class="weight-row weight-comp">
+            <div class="w-label"><span>Comate 强度权重</span><span class="w-val" id="f_wComateStrengthDisp">40%</span></div>
+            <div class="w-comp-bar"><div class="w-comp-fill" id="f_wComateStrengthBar" style="width:40%"></div></div>
+          </div>
         </div>
       </div>
       <div class="calc-panel">
@@ -1352,16 +1380,16 @@ backTopBtn.addEventListener('click', function() {
   function fnum(id) { return parseFloat(f$(id).value) || 0; }
   function ffmt(v) { return (Math.round(v * 100) / 100).toFixed(2); }
 
-  // Weight sliders for full calculator
-  function wireWeightF(sliderId, valId, dispId, complementDispId) {
+  // Weight sliders for full calculator — three mutually exclusive pairs
+  function wireWeightF(sliderId, dispId, compDispId, compBarId) {
     var slider = f$(sliderId);
     if (!slider) return;
     function update() {
       var v = parseInt(slider.value);
       var c = 100 - v;
-      if (f$(valId)) f$(valId).textContent = v + '%';
       if (f$(dispId)) f$(dispId).textContent = v + '%';
-      if (complementDispId && f$(complementDispId)) f$(complementDispId).textContent = c + '%';
+      if (f$(compDispId)) f$(compDispId).textContent = c + '%';
+      if (f$(compBarId)) f$(compBarId).style.width = c + '%';
     }
     slider.addEventListener('input', update);
     slider.addEventListener('change', function() {
@@ -1369,9 +1397,9 @@ backTopBtn.addEventListener('click', function() {
     });
     update();
   }
-  wireWeightF('f_wBehavior', 'f_wBehaviorDisp', 'f_wBehaviorDisp', null);
-  wireWeightF('f_wUsage', 'f_wUsageDisp', 'f_wUsageDisp', null);
-  wireWeightF('f_wComateActive', 'f_wComateActiveDisp', 'f_wComateActiveDisp', null);
+  wireWeightF('f_wBehavior', 'f_wBehaviorDisp', 'f_wOutputDisp', 'f_wOutputBar');
+  wireWeightF('f_wUsage', 'f_wUsageDisp', 'f_wActiveDisp', 'f_wActiveBar');
+  wireWeightF('f_wComateActive', 'f_wComateActiveDisp', 'f_wComateStrengthDisp', 'f_wComateStrengthBar');
 
   function runCalcF() {
     var empType = f$('f_empType').value;
