@@ -1,0 +1,1869 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>产品经理 AI 应用能力考核方案</title>
+<style>
+:root{
+  --bg:#F5F5F7;
+  --bg-soft:#FBFBFD;
+  --bg-card:#FFFFFF;
+  --bg-dark:#1D1D1F;
+  --text:#1D1D1F;
+  --text-secondary:#86868B;
+  --text-tertiary:#AEAEB2;
+  --border:#D2D2D7;
+  --border-hairline:#E5E5EA;
+  --accent:#1D1D1F;
+  --accent-soft:#F0F0F2;
+  --blue:#0071E3;
+  --blue-light:#E8F1FD;
+  --green:#34C759;
+  --green-light:#E8F9EE;
+  --amber:#FF9500;
+  --amber-light:#FFF4E5;
+  --red:#FF3B30;
+  --red-light:#FFEBE9;
+  --font-sys:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Helvetica Neue","Segoe UI",Roboto,"PingFang SC","Noto Sans SC","Microsoft YaHei",sans-serif;
+  --font-mono:"SF Mono","SF Mono","Fira Code",Menlo,Consolas,monospace;
+  --sidebar-w:240px;
+  --content-w:960px;
+  --tab-h:48px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+body{font-family:var(--font-sys);background:var(--bg);color:var(--text);line-height:1.6;font-size:15px;letter-spacing:-0.01em}
+
+/* ========== Tab Bar ========== */
+.tab-bar{position:fixed;top:0;left:0;right:0;height:var(--tab-h);background:rgba(245,245,247,0.72);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);display:flex;align-items:center;padding:0 1.5rem;gap:0;z-index:200;border-bottom:1px solid var(--border-hairline)}
+.tab-btn{padding:0 1rem;height:var(--tab-h);border:none;background:transparent;color:var(--text-secondary);font-size:.875rem;font-weight:400;cursor:pointer;transition:color .2s;font-family:var(--font-sys);position:relative;letter-spacing:-0.01em}
+.tab-btn:hover{color:var(--text)}
+.tab-btn.active{color:var(--text);font-weight:600}
+.tab-btn.active::after{content:'';position:absolute;bottom:0;left:1rem;right:1rem;height:2px;background:var(--text);border-radius:1px}
+.tab-brand{margin-left:auto;color:var(--text-tertiary);font-size:.8rem;font-weight:400}
+
+/* ========== Sidebar ========== */
+.sidebar{position:fixed;top:var(--tab-h);left:0;width:var(--sidebar-w);height:calc(100vh - var(--tab-h));background:var(--bg-soft);overflow-y:auto;padding:1.5rem 0;z-index:100;transition:transform .3s;border-right:1px solid var(--border-hairline)}
+.sidebar::-webkit-scrollbar{width:3px}
+.sidebar::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+.sidebar-brand{padding:0 1.5rem 1.25rem;border-bottom:1px solid var(--border-hairline);margin-bottom:.75rem}
+.sidebar-brand h2{font-size:.9rem;font-weight:600;margin-bottom:.15rem;color:var(--text)}
+.sidebar-brand p{font-size:.72rem;color:var(--text-secondary);font-weight:400}
+.sidebar-nav{list-style:none}
+.nav-group-label{padding:.75rem 1.5rem .25rem;font-size:.65rem;text-transform:uppercase;letter-spacing:.06em;color:var(--text-tertiary);font-weight:600}
+.sidebar-nav li a{display:flex;align-items:baseline;gap:.5rem;padding:.35rem 1.5rem;color:var(--text-secondary);text-decoration:none;font-size:.825rem;transition:color .15s;border-left:2px solid transparent;font-weight:400}
+.sidebar-nav li a:hover{color:var(--text)}
+.sidebar-nav li a.active{color:var(--text);font-weight:500;border-left-color:var(--text);background:var(--accent-soft)}
+.sidebar-nav li a .num{font-family:var(--font-mono);font-size:.7rem;color:var(--text-tertiary);min-width:1.5rem;font-variant-numeric:tabular-nums}
+.sidebar-nav li a.active .num{color:var(--text-secondary)}
+
+/* ========== Main ========== */
+.main{margin-left:var(--sidebar-w);margin-top:var(--tab-h);padding:3.5rem 3rem 6rem;max-width:var(--content-w)}
+.tab-content{display:none}
+.tab-content.active{display:block}
+
+/* ========== Hero ========== */
+.hero{margin-bottom:4rem}
+.hero-eyebrow{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--text-secondary);font-weight:600;margin-bottom:.75rem}
+.hero h1{font-size:2rem;font-weight:700;margin-bottom:.75rem;line-height:1.2;letter-spacing:-0.03em}
+.hero h2{font-size:2rem;font-weight:700;margin-bottom:.75rem;line-height:1.2;letter-spacing:-0.03em}
+.hero p{color:var(--text-secondary);font-size:1rem;max-width:65ch;line-height:1.65;font-weight:400}
+.hero-formula{margin-top:1.5rem;padding:1rem 1.5rem;background:var(--bg-card);border:1px solid var(--border-hairline);border-radius:8px;font-family:var(--font-mono);font-size:.875rem;color:var(--text);font-weight:500}
+.hero-formula .pct{color:var(--blue);font-weight:600}
+.hero-formula .plus{color:var(--text-secondary);margin:0 .25rem}
+
+/* ========== Section ========== */
+.section{margin-bottom:3.5rem}
+.section-header{display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem}
+.sec-num{font-family:var(--font-mono);font-size:.75rem;font-weight:600;color:var(--text-tertiary);flex-shrink:0;letter-spacing:0}
+.section-header h3{font-size:1.25rem;font-weight:600;letter-spacing:-0.02em}
+.section h4{font-size:.95rem;font-weight:600;margin:1.75rem 0 .6rem;color:var(--text)}
+.section p{margin-bottom:.75rem;color:var(--text);line-height:1.65}
+.section ul,.section ol{margin:.5rem 0 1rem 1.5rem}
+.section li{margin-bottom:.35rem;line-height:1.65}
+
+/* ========== Code block ========== */
+.code-block{background:var(--bg-dark);color:#F5F5F7;border-radius:10px;padding:1.1rem 1.5rem;margin:1rem 0;overflow-x:auto;font-family:var(--font-mono);font-size:.82rem;line-height:1.65;white-space:pre-wrap}
+.code-block .hl{color:#64D2FF}
+.code-block .hl2{color:#30D158;font-weight:600}
+.code-block .hl3{color:#FF9F0A;font-weight:600}
+.code-block .cmt{color:#86868B}
+
+/* ========== Table ========== */
+.tbl-wrap{overflow-x:auto;margin:1rem 0}
+table{width:100%;border-collapse:collapse;font-size:.875rem}
+th{padding:.6rem .85rem;text-align:left;font-weight:600;font-size:.78rem;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.04em;border-bottom:1px solid var(--border)}
+td{padding:.7rem .85rem;text-align:left;border-bottom:1px solid var(--border-hairline);color:var(--text)}
+tbody tr:last-child td{border-bottom:none}
+tbody tr:hover{background:var(--bg-soft)}
+
+/* ========== Blockquote ========== */
+blockquote{border-left:2px solid var(--text);padding:.25rem 0 .25rem 1.25rem;margin:1rem 0;color:var(--text-secondary);font-size:.9rem;font-weight:400}
+
+/* ========== Callout ========== */
+.callout{padding:.875rem 1rem;margin:1rem 0;border-radius:8px;font-size:.875rem;line-height:1.6}
+.callout-title{font-weight:600;margin-bottom:.25rem}
+.callout.info{background:var(--blue-light);color:#0058B0}
+.callout.warn{background:var(--amber-light);color:#B26B00}
+.callout.tip{background:var(--green-light);color:#1A7D34}
+.callout.danger{background:var(--red-light);color:#C5271E}
+
+/* ========== Subsection ========== */
+.subsec{margin:1.25rem 0}
+.subsec h4{margin:0 0 .5rem;font-size:.875rem;font-weight:600;color:var(--text)}
+
+/* ========== Flow diagram ========== */
+.flow{display:flex;align-items:stretch;gap:0;margin:1.5rem 0;flex-wrap:wrap}
+.flow-node{flex:1;min-width:140px;background:var(--bg-card);border:1px solid var(--border-hairline);border-radius:10px;padding:1rem;text-align:center;position:relative}
+.flow-node .fn-label{font-size:.7rem;color:var(--text-secondary);margin-bottom:.3rem;text-transform:uppercase;letter-spacing:.03em;font-weight:600}
+.flow-node .fn-value{font-family:var(--font-mono);font-size:1rem;font-weight:700;color:var(--text);letter-spacing:-0.01em}
+.flow-node .fn-unit{font-size:.7rem;color:var(--text-tertiary);margin-top:.2rem}
+.flow-arrow{display:flex;align-items:center;justify-content:center;width:36px;font-size:1rem;color:var(--text-tertiary);font-weight:300}
+.flow-node.final{background:var(--text);border-color:var(--text)}
+.flow-node.final .fn-label{color:rgba(255,255,255,0.6)}
+.flow-node.final .fn-value{color:#fff}
+.flow-node.final .fn-unit{color:rgba(255,255,255,0.5)}
+
+/* ========== Part divider ========== */
+.part-divider{margin:3rem 0 1.5rem;padding:.5rem 0;font-size:.78rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text-tertiary);border-top:1px solid var(--border-hairline);padding-top:1rem}
+
+/* ========== Calculator ========== */
+.calc-tool{background:var(--bg-card);border:1px solid var(--border-hairline);border-radius:12px;padding:2rem;margin:1.5rem 0}
+.calc-tool h4{font-size:1.05rem;font-weight:600;margin:0 0 .4rem;letter-spacing:-0.02em}
+.calc-tool .calc-desc{font-size:.85rem;color:var(--text-secondary);margin-bottom:1.5rem;line-height:1.55}
+.calc-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-bottom:1.5rem}
+.calc-panel{padding:1.25rem;border-right:1px solid var(--border-hairline);border-bottom:1px solid var(--border-hairline)}
+.calc-panel:nth-child(even){border-right:none}
+.calc-panel:nth-last-child(-n+2){border-bottom:none}
+.calc-panel h5{font-size:.78rem;font-weight:600;margin:0 0 .85rem;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.04em}
+.calc-row{display:flex;align-items:center;justify-content:space-between;gap:.5rem;margin-bottom:.6rem;font-size:.825rem}
+.calc-row label{color:var(--text);flex-shrink:0;font-weight:400}
+.calc-row input,.calc-row select{width:90px;padding:.3rem .4rem;border:1px solid var(--border);border-radius:6px;font-family:var(--font-mono);font-size:.8rem;text-align:right;background:var(--bg-soft);color:var(--text)}
+.calc-row input:focus,.calc-row select:focus{outline:none;border-color:var(--blue)}
+.calc-row .unit{font-size:.75rem;color:var(--text-tertiary);min-width:2rem}
+.weight-row{margin:.6rem 0}
+.weight-row .w-label{display:flex;justify-content:space-between;font-size:.825rem;margin-bottom:.25rem}
+.weight-row .w-label .w-val{font-family:var(--font-mono);font-weight:600;color:var(--text)}
+.weight-row input[type=range]{width:100%;accent-color:var(--text);height:3px}
+.calc-actions{display:flex;gap:.75rem;margin:1.5rem 0 0}
+.calc-actions button{padding:.55rem 1.5rem;border:none;border-radius:980px;font-size:.875rem;font-weight:400;cursor:pointer;font-family:var(--font-sys);transition:opacity .15s}
+.calc-actions .btn-primary{background:var(--text);color:#fff}
+.calc-actions .btn-primary:hover{opacity:0.85}
+.calc-actions .btn-secondary{background:transparent;color:var(--text);border:1px solid var(--border)}
+.calc-actions .btn-secondary:hover{background:var(--accent-soft)}
+.calc-results{display:none;margin-top:1.5rem}
+.result-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:0;margin-bottom:1.5rem;border:1px solid var(--border-hairline);border-radius:10px;overflow:hidden}
+.result-card{background:var(--bg-card);padding:1rem;text-align:center;border-right:1px solid var(--border-hairline);border-bottom:1px solid var(--border-hairline)}
+.result-card:last-child{border-right:none}
+.result-card.highlight{background:var(--text)}
+.result-card .rc-label{font-size:.7rem;color:var(--text-secondary);margin-bottom:.25rem;text-transform:uppercase;letter-spacing:.03em;font-weight:600}
+.result-card.highlight .rc-label{color:rgba(255,255,255,0.6)}
+.result-card .rc-value{font-family:var(--font-mono);font-size:1.5rem;font-weight:700;color:var(--text);letter-spacing:-0.02em}
+.result-card.highlight .rc-value{color:#fff}
+.result-card .rc-tag{display:inline-block;font-size:.65rem;padding:.1rem .5rem;border-radius:980px;margin-top:.25rem;font-weight:600}
+.rc-tag.tag-excellent{background:var(--green-light);color:#1A7D34}
+.rc-tag.tag-good{background:var(--blue-light);color:#0058B0}
+.rc-tag.tag-pass{background:var(--amber-light);color:#B26B00}
+.rc-tag.tag-fail{background:var(--red-light);color:#C5271E}
+.calc-trace{background:var(--bg-dark);color:#F5F5F7;border-radius:10px;padding:1.1rem 1.5rem;margin-bottom:1.5rem;font-family:var(--font-mono);font-size:.78rem;line-height:1.7;overflow-x:auto}
+.calc-trace .t-step{margin-bottom:.3rem}
+.calc-trace .t-step .t-num{color:#64D2FF;font-weight:600}
+.calc-trace .t-result{color:#30D158;font-weight:600}
+.calc-trace .t-warn{color:#FF9F0A}
+.calc-analysis{padding:1rem 0 0;border-top:1px solid var(--border-hairline)}
+.calc-analysis h5{font-size:.85rem;font-weight:600;margin:0 0 .5rem;color:var(--text)}
+.calc-analysis p{font-size:.825rem;margin-bottom:.4rem;color:var(--text)}
+.calc-analysis .hl-blue{color:var(--blue);font-weight:600}
+.calc-analysis .hl-green{color:var(--green);font-weight:600}
+.calc-analysis .hl-red{color:var(--red);font-weight:600}
+.calc-analysis .highlight{color:var(--green);font-weight:600}
+.calc-analysis .warn-text{color:var(--amber);font-weight:600}
+.calc-analysis .accent-text{color:var(--blue);font-weight:600}
+.calc-analysis .green-text{color:var(--green);font-weight:600}
+
+/* ========== Back to top ========== */
+.back-top{position:fixed;bottom:2rem;right:2rem;width:40px;height:40px;background:var(--text);color:#fff;border:none;border-radius:50%;cursor:pointer;font-size:1.1rem;box-shadow:0 4px 12px rgba(0,0,0,0.1);opacity:0;transition:opacity .2s;z-index:150;display:flex;align-items:center;justify-content:center}
+.back-top.visible{opacity:1}
+.back-top:hover{opacity:0.85}
+
+/* ========== Responsive ========== */
+@media(max-width:900px){
+  :root{--sidebar-w:0px}
+  .sidebar{transform:translateX(-100%);width:240px;z-index:110;background:var(--bg-soft)}
+  .sidebar.open{transform:translateX(0)}
+  .main{margin-left:0;padding:2rem 1.25rem 4rem;max-width:100%}
+  .calc-grid{grid-template-columns:1fr}
+  .calc-panel{border-right:none}
+  .calc-panel:nth-last-child(-n+2){border-bottom:1px solid var(--border-hairline)}
+  .calc-panel:last-child{border-bottom:none}
+  .hero h1,.hero h2{font-size:1.5rem}
+  .section-header h3{font-size:1.1rem}
+  .section{margin-bottom:2.5rem}
+}
+@media(max-width:768px){
+  .tab-btn{padding:0 .7rem;font-size:.8rem}
+  .hero{margin-bottom:2.5rem}
+  .flow{flex-direction:column}
+  .flow-arrow{width:100%;height:28px;transform:rotate(90deg)}
+  .result-grid{grid-template-columns:1fr 1fr}
+}
+
+@media(prefers-reduced-motion:reduce){
+  *{transition:none!important;animation:none!important}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+<!-- Tab Bar -->
+<div class="tab-bar">
+  <button class="tab-btn active" data-tab="formula" onclick="switchTab('formula')">AI用量考核</button>
+  <button class="tab-btn" data-tab="overview" onclick="switchTab('overview')">AI应用能力考核方案概览</button>
+  <button class="tab-btn" data-tab="detail" onclick="switchTab('detail')">AI应用能力考核操作细则</button>
+  <span class="tab-brand">产品经理 AI 应用能力考核方案</span>
+</div>
+
+<!-- Sidebar -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-brand">
+    <h2>AI 考核方案</h2>
+    <p id="sidebarSub">AI用量考核 · 统一计量</p>
+  </div>
+  <ul class="sidebar-nav" id="sidebarNav"></ul>
+</aside>
+
+<!-- Main Content -->
+<main class="main">
+<!-- TAB 1: AI用量考核 -->
+<div class="tab-content active" id="tab-formula">
+<div class="hero">
+  <div class="hero-eyebrow">统一计量 · 消耗用量换算</div>
+  <h2>AI 用量统一换算公式</h2>
+  <p>将 Comate Token、付费渠道消耗金额、使用天数等不同维度的 AI 资源消耗，统一换算为单一计量单位"AI 用量分"（0-100 分），便于横向对比和汇总。</p>
+  <div class="hero-formula">
+    AI 用量分 = Comate 用量分 <span class="pct">× W₁</span> <span class="plus">+</span> 付费渠道用量分 <span class="pct">× W₂</span>
+  </div>
+</div>
+
+<section class="section" id="m_s1">
+  <div class="section-header"><span class="sec-num">01</span><h3>统一计量单位</h3></div>
+  <p><strong>AI 用量分</strong>（0-100 分），是所有 AI 资源消耗的统一计量单位。无论原始单位是 Token、元还是天，最终都换算为这一单一分数。</p>
+  <blockquote>核心思路：不同资源用不同公式换算为 0-100 的分值，再按权重合并为最终用量分。</blockquote>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>原始资源</th><th>原始单位</th><th>换算方向</th><th>统一单位</th></tr></thead>
+    <tbody>
+      <tr><td>Comate Token 消耗</td><td>Token</td><td>活跃率 + 强度 → 分值</td><td>AI 用量分</td></tr>
+      <tr><td>付费渠道消耗（Cursor / API Key / Gemini / Coding Plan）</td><td>元</td><td>使用率 + 活跃率 → 分值</td><td>AI 用量分</td></tr>
+      <tr><td>Comate 有效使用天数</td><td>天</td><td>活跃率（天/周期天数）</td><td>AI 用量分</td></tr>
+      <tr><td>付费有效使用天数</td><td>天</td><td>活跃率（天/目标天数）</td><td>AI 用量分</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section class="section" id="m_s2">
+  <div class="section-header"><span class="sec-num">02</span><h3>总换算公式</h3></div>
+  <div class="code-block">AI 用量分 = Comate 用量分 × W₁ + 付费渠道用量分 × W₂
+
+默认权重：W₁ = 50%，W₂ = 50%（可调）
+
+A 类员工（仅 Comate）：AI 用量分 = Comate 用量分
+B 类员工（全渠道）：AI 用量分 = MAX(付费渠道用量分, Comate 用量分)</div>
+  <p>B 类员工取主渠道最大值，意味着产品经理可以根据任务选择最适合的 AI 渠道，不要求每个渠道都使用。</p>
+</section>
+
+<section class="section" id="m_s3">
+  <div class="section-header"><span class="sec-num">03</span><h3>员工分类与适用</h3></div>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>员工类型</th><th>权限情况</th><th>用量分计算方式</th></tr></thead>
+    <tbody>
+      <tr><td>A 类：仅 Comate 员工</td><td>只能使用 Comate</td><td>AI 用量分 = Comate 用量分</td></tr>
+      <tr><td>B 类：全渠道员工</td><td>Comate + Cursor / API Key / Gemini / Coding Plan</td><td>AI 用量分 = MAX(付费渠道用量分, Comate 用量分)</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section class="section" id="m_s4">
+  <div class="section-header"><span class="sec-num">04</span><h3>Comate Token 换算</h3></div>
+  <p>Comate 的 Token 消耗换算为 0-100 的分值，由两个子维度组成：</p>
+  <div class="code-block">Comate 用量分 = Comate 有效活跃率 × 60% + Comate 强度得分 × 40%
+
+子权重默认 60% / 40%（可调）</div>
+  <div class="subsec"><h4>4.1 有效活跃率（天维度换算）</h4></div>
+  <div class="code-block">Comate 有效活跃率 = Comate 有效使用天数 / 统计周期天数
+
+有效使用日门槛：当天 Token 消耗 ≥ 组织每人每日 Token 基线 × 20%
+过渡口径：暂无每日明细时，用后台导出使用天数，上限 20 天/月</div>
+  <div class="subsec"><h4>4.2 强度得分（Token 维度换算）</h4></div>
+  <div class="code-block">个人周期日均 Token = Comate 有效 Token 总消耗 / 统计周期天数
+
+Comate 强度得分 = MIN(个人周期日均 Token / 组织每人每日 Token 基线, 100%)
+
+单日峰值截断：单日有效 Token = MIN(当天实际消耗, 组织基线 × 5)</div>
+  <div class="subsec"><h4>4.3 组织基线</h4></div>
+  <div class="code-block">组织每人每日 Token 基线 = 组织全员每人每日 Token 消耗的 P50
+
+每季度校准一次，周期内不调整。</div>
+  <div class="callout info">换算链路：Token → 日均 Token → 与基线比值 → 强度得分（0-100%）；天数 → 活跃率（0-100%）→ 两者加权 = Comate 用量分</div>
+  <div class="flow">
+    <div class="flow-node">
+      <div class="fn-label">原始消耗</div>
+      <div class="fn-value">220,000 Token</div>
+      <div class="fn-unit">+ 18 有效天 / 22 天</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node">
+      <div class="fn-label">日均 Token</div>
+      <div class="fn-value">10,000</div>
+      <div class="fn-unit">220,000 ÷ 22 天</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node">
+      <div class="fn-label">强度得分</div>
+      <div class="fn-value">100%</div>
+      <div class="fn-unit">10,000 / 10,000 基线</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node final">
+      <div class="fn-label">Comate 用量分</div>
+      <div class="fn-value">89.09</div>
+      <div class="fn-unit">81.82%×60% + 100%×40%</div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="m_s5">
+  <div class="section-header"><span class="sec-num">05</span><h3>付费渠道消耗换算</h3></div>
+  <p>付费渠道（Cursor / API Key / Gemini / Coding Plan）的消耗金额换算为 0-100 的分值：</p>
+  <div class="code-block">付费渠道用量分 = 付费额度池使用率 × 50% + 付费有效活跃率 × 50%
+
+子权重默认 50% / 50%（可调）</div>
+  <div class="subsec"><h4>5.1 额度池使用率（金额维度换算）</h4></div>
+  <div class="code-block">付费额度池使用率 = MIN(付费渠道总消耗金额 / 个人付费额度池总额, 100%)
+
+付费渠道总消耗金额 = Cursor 消耗 + API Key 消耗 + Gemini 消耗 + Coding Plan 消耗
+
+说明：四个渠道共用一个额度池，使用率最高 100%。</div>
+  <div class="subsec"><h4>5.2 有效活跃率（天数维度换算）</h4></div>
+  <div class="code-block">付费有效活跃率 = MIN(付费有效使用天数 / 月度目标活跃天数, 100%)
+
+月度目标活跃天数 = 8 天（默认）
+
+付费有效使用日：当天付费渠道有实际消耗且对应真实产品工作场景
+过渡口径：当天消耗金额 > 0 即计 1 天，上限 15 天/月</div>
+  <div class="flow">
+    <div class="flow-node">
+      <div class="fn-label">原始消耗</div>
+      <div class="fn-value">400 元 / 500 元</div>
+      <div class="fn-unit">+ 10 有效天 / 8 目标天</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node">
+      <div class="fn-label">使用率</div>
+      <div class="fn-value">80%</div>
+      <div class="fn-unit">400 / 500</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node">
+      <div class="fn-label">活跃率</div>
+      <div class="fn-value">100%</div>
+      <div class="fn-unit">10 / 8 → capped 100%</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node final">
+      <div class="fn-label">付费渠道用量分</div>
+      <div class="fn-value">90.00</div>
+      <div class="fn-unit">80%×50% + 100%×50%</div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="m_s6">
+  <div class="section-header"><span class="sec-num">06</span><h3>使用天数换算</h3></div>
+  <p>两类使用天数分别换算为活跃率，作为用量分的子维度：</p>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>天数类型</th><th>换算公式</th><th>默认参数</th><th>上限</th></tr></thead>
+    <tbody>
+      <tr><td>Comate 有效使用天数</td><td>活跃率 = 有效天数 / 统计周期天数</td><td>周期天数 = 22 天</td><td>过渡口径 20 天/月</td></tr>
+      <tr><td>付费有效使用天数</td><td>活跃率 = 有效天数 / 月度目标活跃天数</td><td>目标天数 = 8 天</td><td>过渡口径 15 天/月</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <blockquote>天数本身不直接计分，而是通过活跃率参与用量分计算。天数的作用是防止集中消耗刷量。</blockquote>
+</section>
+
+<section class="section" id="m_s7">
+  <div class="section-header"><span class="sec-num">07</span><h3>集中消耗封顶</h3></div>
+  <p>为防止少数几天集中消耗拉高分数，付费渠道用量分受最低活跃门槛封顶：</p>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>付费有效使用天数</th><th>默认目标 8 天下的区间</th><th>付费渠道用量分上限</th></tr></thead>
+    <tbody>
+      <tr><td>&lt; 目标天数 × 30%</td><td>0 - 2 天</td><td>最高 60 分</td></tr>
+      <tr><td>≥ 30% 且 &lt; 60%</td><td>3 - 4 天</td><td>最高 75 分</td></tr>
+      <tr><td>≥ 60% 且 &lt; 100%</td><td>5 - 7 天</td><td>最高 85 分</td></tr>
+      <tr><td>≥ 目标天数</td><td>≥ 8 天</td><td>不封顶</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="code-block">最终付费渠道用量分 = MIN(正常公式得分, 对应封顶值)</div>
+  <p>Comate 侧通过单日峰值截断（基线 × 5）实现类似保护。</p>
+</section>
+
+<section class="section" id="m_s8">
+  <div class="section-header"><span class="sec-num">08</span><h3>闲置保护</h3></div>
+  <div class="code-block">单月付费额度使用率 < 20% → 仅触发资源适配预警，不直接扣分
+
+连续 2 个周期使用率 < 20% 且无合理说明 → 用量分按 90% 折算
+
+连续 3 个周期使用率 < 20% → 进入资源配置复盘</div>
+  <p>可接受的低适配说明：需求收敛/流程梳理、探索期/收尾期、敏感数据/保密项目、团队已有共享资产。</p>
+</section>
+
+<section class="section" id="m_s9">
+  <div class="section-header"><span class="sec-num">09</span><h3>换算系数总表</h3></div>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>资源维度</th><th>原始单位</th><th>换算公式</th><th>默认参数</th><th>产出分值</th></tr></thead>
+    <tbody>
+      <tr><td>Comate 有效活跃率</td><td>天 / 天</td><td>有效天数 ÷ 周期天数</td><td>周期 22 天</td><td>0-100%</td></tr>
+      <tr><td>Comate 强度得分</td><td>Token</td><td>日均 Token ÷ 组织基线</td><td>基线 = P50</td><td>0-100%</td></tr>
+      <tr><td>→ Comate 用量分</td><td>—</td><td>活跃率 × 60% + 强度 × 40%</td><td>子权重可调</td><td>0-100</td></tr>
+      <tr><td>付费额度使用率</td><td>元 / 元</td><td>消耗金额 ÷ 额度池总额</td><td>池 = 月初分配</td><td>0-100%</td></tr>
+      <tr><td>付费有效活跃率</td><td>天 / 天</td><td>有效天数 ÷ 目标天数</td><td>目标 8 天</td><td>0-100%</td></tr>
+      <tr><td>→ 付费渠道用量分</td><td>—</td><td>使用率 × 50% + 活跃率 × 50%</td><td>子权重可调</td><td>0-100</td></tr>
+      <tr style="background:var(--accent-light)"><td><strong>→ AI 用量分（统一）</strong></td><td>—</td><td><strong>Comate × W₁ + 付费 × W₂</strong></td><td>W₁=50% W₂=50%</td><td><strong>0-100</strong></td></tr>
+    </tbody>
+  </table>
+  </div>
+  <blockquote>B 类员工取 MAX(付费渠道用量分, Comate 用量分) 作为最终 AI 用量分。</blockquote>
+</section>
+
+<section class="section" id="m_s10">
+  <div class="section-header"><span class="sec-num">10</span><h3>用量计算器</h3></div>
+  <p>输入资源消耗数据，调节换算权重，实时计算统一 AI 用量分。</p>
+  <div class="calc-tool">
+    <h4>AI 用量分计算器</h4>
+    <p class="calc-desc">支持 A 类（仅 Comate）和 B 类（全渠道）员工。B 类员工可选择主渠道取最大值或加权合并模式。所有参数均可手动调整。</p>
+    <div class="calc-grid">
+      <div class="calc-panel">
+        <h5>员工类型与付费渠道数据</h5>
+        <div class="calc-row"><label>员工类型</label><select id="s_empType"><option value="A">A 类（仅 Comate）</option><option value="B" selected>B 类（全渠道）</option></select></div>
+        <div class="calc-row"><label>付费额度池总额</label><input type="number" id="s_poolAmount" value="500" min="0" step="10"><span class="unit">元</span></div>
+        <div class="calc-row"><label>付费渠道总消耗</label><input type="number" id="s_poolUsed" value="400" min="0" step="10"><span class="unit">元</span></div>
+        <div class="calc-row"><label>付费有效使用天数</label><input type="number" id="s_paidDays" value="10" min="0" max="15" step="1"><span class="unit">天</span></div>
+        <div class="calc-row"><label>月度目标活跃天数</label><input type="number" id="s_paidTargetDays" value="8" min="1" step="1"><span class="unit">天</span></div>
+      </div>
+      <div class="calc-panel">
+        <h5>Comate 使用数据</h5>
+        <div class="calc-row"><label>统计周期天数</label><input type="number" id="s_cycleDays" value="22" min="1" step="1"><span class="unit">天</span></div>
+        <div class="calc-row"><label>Comate 有效使用天数</label><input type="number" id="s_comateDays" value="18" min="0" max="20" step="1"><span class="unit">天</span></div>
+        <div class="calc-row"><label>Comate Token 总消耗</label><input type="number" id="s_comateTokens" value="220000" min="0" step="1000"><span class="unit">token</span></div>
+        <div class="calc-row"><label>组织每日 Token 基线</label><input type="number" id="s_orgBaseline" value="10000" min="1" step="500"><span class="unit">/日</span></div>
+      </div>
+      <div class="calc-panel">
+        <h5>换算权重调节</h5>
+        <div class="calc-row"><label>主渠道合并方式</label><select id="s_mergeMode"><option value="max" selected>取最大值</option><option value="weighted">加权合并</option></select></div>
+        <div class="weight-row" id="s_mainWeightRow" style="display:none">
+          <div class="w-label"><span>Comate 权重（加权模式）</span><span class="w-val" id="s_wComateMainDisp">50%</span></div>
+          <input type="range" id="s_wComateMain" min="0" max="100" value="50" step="5">
+        </div>
+        <div class="weight-row">
+          <div class="w-label"><span>Comate 活跃率权重</span><span class="w-val" id="s_wComateActiveDisp">60%</span></div>
+          <input type="range" id="s_wComateActive" min="0" max="100" value="60" step="5">
+        </div>
+        <div class="weight-row">
+          <div class="w-label"><span>付费使用率权重</span><span class="w-val" id="s_wUsageDisp">50%</span></div>
+          <input type="range" id="s_wUsage" min="0" max="100" value="50" step="5">
+        </div>
+      </div>
+      <div class="calc-panel">
+        <h5>封顶与保护参数</h5>
+        <div class="calc-row"><label>封顶·档1（&lt;30%目标）</label><input type="number" id="s_cap1" value="60" min="0" max="100" step="1"><span class="unit">分</span></div>
+        <div class="calc-row"><label>封顶·档2（&lt;60%目标）</label><input type="number" id="s_cap2" value="75" min="0" max="100" step="1"><span class="unit">分</span></div>
+        <div class="calc-row"><label>封顶·档3（&lt;目标）</label><input type="number" id="s_cap3" value="85" min="0" max="100" step="1"><span class="unit">分</span></div>
+        <div class="calc-row"><label>闲置预警阈值</label><input type="number" id="s_idleThreshold" value="20" min="0" max="100" step="1"><span class="unit">%</span></div>
+        <div class="calc-row"><label>连续闲置折算系数</label><input type="number" id="s_idleDiscount" value="90" min="0" max="100" step="1"><span class="unit">%</span></div>
+        <div class="calc-row"><label>是否连续 2 周期闲置</label><select id="s_consecutiveIdle"><option value="no" selected>否</option><option value="yes">是</option></select></div>
+      </div>
+    </div>
+    <div class="calc-actions">
+      <button class="btn-primary" id="s_btnCalculate">计算用量分</button>
+      <button class="btn-secondary" id="s_btnReset">恢复默认</button>
+    </div>
+    <div class="calc-results" id="s_calcResults">
+      <div class="result-grid" id="s_resultGrid"></div>
+      <div class="calc-trace" id="s_calcTrace"></div>
+      <div class="calc-analysis" id="s_analysisBody"></div>
+    </div>
+  </div>
+</section>
+</div><!-- /tab-formula -->
+<!-- TAB 2: 方案概览 -->
+<div class="tab-content" id="tab-overview">
+<div class="hero">
+  <div class="hero-eyebrow">考核方案 · 决策摘要</div>
+  <h2>产品经理 AI 应用能力考核方案</h2>
+  <p>不考核"谁消耗 AI 资源多"，而考核"谁能把 AI 转化为真实产品产出和可复用团队资产"。从"AI 使用量"转向"AI 产出质量"和"团队资产沉淀"。</p>
+  <div class="hero-formula">
+    最终指数 = AI 使用行为分 <span class="pct">× 40%</span> <span class="plus">+</span> AI 有效产出分 <span class="pct">× 60%</span>
+  </div>
+</div>
+
+<section class="section" id="o_s1">
+  <div class="section-header"><span class="sec-num">01</span><h3>一句话结论</h3></div>
+  <p>本方案不考核"谁消耗 AI 资源多"，而考核"谁能把 AI 转化为真实产品产出和可复用团队资产"。</p>
+  <p>建议先作为试运行指标运行 1-2 个周期，观察数据分布、执行成本和公平性，再决定是否正式纳入绩效。</p>
+</section>
+
+<section class="section" id="o_s2">
+  <div class="section-header"><span class="sec-num">02</span><h3>为什么要做</h3></div>
+  <p>公司已为产品经理配置 Comate、Cursor、API Key、Gemini、Coding Plan 等 AI 资源。如果只看是否开通或消耗金额，无法判断 AI 是否真正提升了产品工作。</p>
+  <p>本方案要解决三个问题：</p>
+  <ol>
+    <li>AI 资源是否真的被用起来。</li>
+    <li>AI 是否提升了需求分析、方案设计、竞品研究、用户反馈分析等产品工作质量。</li>
+    <li>是否沉淀出可复用资产，例如 Agent、Skill、Prompt 模板、知识库、评测集、SOP。</li>
+  </ol>
+  <blockquote>从"AI 使用量"转向"AI 产出质量"和"团队资产沉淀"。</blockquote>
+</section>
+
+<section class="section" id="o_s3">
+  <div class="section-header"><span class="sec-num">03</span><h3>总体考核框架</h3></div>
+  <p>最终指标：<strong>产品经理 AI 应用能力指数</strong>，满分 100 分。</p>
+  <div class="code-block">最终指数 = AI 使用行为分 × 40% + AI 有效产出分 × 60%</div>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>模块</th><th>权重</th><th>看什么</th></tr></thead>
+    <tbody>
+      <tr><td>AI 使用行为分</td><td>40%</td><td>是否持续、真实地使用公司分配的 AI 资源</td></tr>
+      <tr><td>AI 有效产出分</td><td>60%</td><td>是否形成真实产品产出、可复用资产和团队影响</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>产出分占 60%，是为了避免把考核导向"刷 Token、刷额度、刷使用天数"。产品经理的核心价值不是用了多少 AI，而是用 AI 做成了什么。</p>
+</section>
+
+<section class="section" id="o_s4">
+  <div class="section-header"><span class="sec-num">04</span><h3>有效产出看四类</h3></div>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>维度</th><th>默认分值</th><th>判断重点</th></tr></thead>
+    <tbody>
+      <tr><td>产品工作提效</td><td>20</td><td>是否减少重复劳动，提升 PRD、会议纪要、需求整理等交付效率</td></tr>
+      <tr><td>产品分析质量</td><td>25</td><td>是否提升需求判断、竞品分析、用户反馈分析、数据解读质量</td></tr>
+      <tr><td>可复用资产沉淀</td><td>35</td><td>是否沉淀 Agent、Skill、Prompt、知识库、SOP、评测集等资产</td></tr>
+      <tr><td>团队复用与影响</td><td>20</td><td>是否被他人使用，是否进入团队流程或模板库</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>高分不是看材料多少，而是看：</p>
+  <ol>
+    <li>是否有真实业务场景。</li>
+    <li>是否有可核验证据。</li>
+    <li>是否被采纳、复用或进入团队流程。</li>
+    <li>是否能提升团队长期效率。</li>
+  </ol>
+</section>
+
+<section class="section" id="o_s5">
+  <div class="section-header"><span class="sec-num">05</span><h3>如何保证公平</h3></div>
+  <div class="subsec"><h4>5.1 按资源权限分类</h4></div>
+  <p>不同员工 AI 资源权限不同，不能用同一套行为指标硬套。</p>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>员工类型</th><th>行为分计算原则</th></tr></thead>
+    <tbody>
+      <tr><td>仅 Comate 员工</td><td>只看 Comate 活跃指数</td></tr>
+      <tr><td>全渠道员工</td><td>在付费渠道和 Comate 中取主渠道表现</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>这样可以避免两类不公平：</p>
+  <ol>
+    <li>仅 Comate 员工因为没有付费渠道而被扣分。</li>
+    <li>全渠道员工被迫每个渠道都象征性使用。</li>
+  </ol>
+  <div class="subsec"><h4>5.2 按项目阶段允许替代证据</h4></div>
+  <p>不同产品经理所处项目阶段不同，不能只看是否进入正式评审或是否被多人复用。</p>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>项目阶段</th><th>可接受证据方向</th></tr></thead>
+    <tbody>
+      <tr><td>探索期</td><td>机会点、用户访谈、竞品分析、方案假设被采纳</td></tr>
+      <tr><td>交付期</td><td>进入需求评审、版本规划、需求池或方案决策</td></tr>
+      <tr><td>运营期</td><td>分析结论被用于优化决策、问题归因或运营动作</td></tr>
+      <tr><td>收尾期</td><td>复盘、交接文档、SOP 被采纳并入库</td></tr>
+      <tr><td>保密或独立项目</td><td>脱敏摘要 + 负责人确认 + PMO 可核验原始材料</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <blockquote>证据形态可以因项目阶段不同而变化，但质量标准不降低。</blockquote>
+</section>
+
+<section class="section" id="o_s6">
+  <div class="section-header"><span class="sec-num">06</span><h3>如何防止刷量和套利</h3></div>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>风险</th><th>保护机制</th></tr></thead>
+    <tbody>
+      <tr><td>刷 Token、刷额度</td><td>行为分只占 40%，产出分占 60%</td></tr>
+      <tr><td>几天内集中烧完额度</td><td>付费渠道集中消耗封顶</td></tr>
+      <tr><td>行为分高但无产出</td><td>一致性门控，必要时行为分折算</td></tr>
+      <tr><td>产出分高但无使用记录</td><td>要求补充使用过程证据</td></tr>
+      <tr><td>只有口头描述、无材料</td><td>证据等级限制得分上限</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>关键规则：</p>
+  <ol>
+    <li>产出分低于 40 分，最终指数最高不超过 50 分。</li>
+    <li>行为分和产出分偏差过大，会进入一致性校验。</li>
+    <li>没有证据的产出不能评高分。</li>
+    <li>只创建资产但无人使用、无业务验证，不能拿资产高分。</li>
+  </ol>
+</section>
+
+<section class="section" id="o_s7">
+  <div class="section-header"><span class="sec-num">07</span><h3>落地方式</h3></div>
+  <p>建议分两层执行：</p>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>层级</th><th>看什么</th><th>用途</th></tr></thead>
+    <tbody>
+      <tr><td>管理层</td><td>方向、结果、风险、资源投入</td><td>判断是否启动试运行，是否正式纳入绩效</td></tr>
+      <tr><td>PMO / 产品负责人</td><td>公式、阈值、证据、异常、申诉</td><td>负责评分、校准、复核和落地执行</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>月度执行建议轻量化：</p>
+  <ol>
+    <li>普通案例按量表快速评分。</li>
+    <li>高分案例、异常案例、申诉案例重点复核。</li>
+    <li>团队级资产季度集中评审。</li>
+  </ol>
+</section>
+
+<section class="section" id="o_s8">
+  <div class="section-header"><span class="sec-num">08</span><h3>试运行建议</h3></div>
+  <p>建议先运行 1-2 个周期，不直接硬挂绩效。</p>
+  <p>试运行期间重点观察：</p>
+  <ol>
+    <li>数据是否能采集到。</li>
+    <li>员工提交证据是否容易核验。</li>
+    <li>各团队评分口径是否一致。</li>
+    <li>是否出现刷 Token、刷材料、刷资产数量。</li>
+    <li>评审成本是否可接受。</li>
+    <li>是否真的推动产品经理沉淀 Agent、Skill、Prompt、SOP 等资产。</li>
+  </ol>
+  <p>试运行结束后，再决定：</p>
+  <ol>
+    <li>是否正式纳入绩效。</li>
+    <li>行为分和产出分权重是否调整。</li>
+    <li>证据等级和异常阈值是否需要优化。</li>
+    <li>是否建立团队级 AI 资产库。</li>
+  </ol>
+</section>
+
+<section class="section" id="o_s9">
+  <div class="section-header"><span class="sec-num">09</span><h3>关键决策事项</h3></div>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>决策项</th><th>建议</th></tr></thead>
+    <tbody>
+      <tr><td>是否启动</td><td>建议启动试运行</td></tr>
+      <tr><td>是否直接纳入绩效</td><td>不建议第一期直接硬挂绩效</td></tr>
+      <tr><td>试运行周期</td><td>建议 1-2 个考核周期</td></tr>
+      <tr><td>考核导向</td><td>产出和资产沉淀优先，资源消耗只作为辅助</td></tr>
+      <tr><td>组织投入</td><td>需要 PMO 支持数据报表、评分校准和复核</td></tr>
+      <tr><td>后续机制</td><td>建议同步建设团队级 AI 资产库</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+</div><!-- /tab-overview -->
+<!-- TAB 3: 操作细则 -->
+<div class="tab-content" id="tab-detail">
+<div class="hero">
+  <div class="hero-eyebrow">操作细则 · 执行手册</div>
+  <h2>产品经理 AI 应用能力考核操作细则</h2>
+  <p>本细则用于产品经理 AI 应用能力考核的实际执行，包括数据采集、行为分计算、有效产出评分、证据核验、异常处理、申诉复核和试运行观察。</p>
+  <div class="hero-formula">
+    最终指数 = AI 使用行为分 <span class="pct">× 40%</span> <span class="plus">+</span> AI 有效产出分 <span class="pct">× 60%</span>
+  </div>
+</div>
+
+<section class="section" id="d_s11">
+  <div class="section-header"><span class="sec-num">11</span><h3>适用范围</h3></div>
+  <p>本细则用于产品经理 AI 应用能力考核的实际执行，包括数据采集、行为分计算、有效产出评分、证据核验、异常处理、申诉复核和试运行观察。</p>
+  <p>考核对象：</p>
+  <ol>
+    <li>仅使用 Comate 的产品经理。</li>
+    <li>同时具备 Comate、Cursor、API Key、Gemini、Coding Plan 等权限的产品经理。</li>
+  </ol>
+  <blockquote>默认按自然月统计。试运行期建议运行 1-2 个考核周期。</blockquote>
+</section>
+
+<section class="section" id="d_s12">
+  <div class="section-header"><span class="sec-num">12</span><h3>总体公式</h3></div>
+  <div class="code-block">产品经理 AI 应用能力指数
+= AI 使用行为分 × 40%
++ AI 有效产出分 × 60%</div>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>模块</th><th>权重</th><th>说明</th></tr></thead>
+    <tbody>
+      <tr><td>AI 使用行为分</td><td>40%</td><td>衡量是否持续、真实使用 AI 资源</td></tr>
+      <tr><td>AI 有效产出分</td><td>60%</td><td>衡量是否形成真实产品产出、资产沉淀和团队影响</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section class="section" id="d_s13">
+  <div class="section-header"><span class="sec-num">13</span><h3>员工分类</h3></div>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>员工类型</th><th>权限情况</th><th>行为分计算原则</th></tr></thead>
+    <tbody>
+      <tr><td>A 类：仅 Comate 员工</td><td>只能使用 Comate</td><td>不考核付费额度池，只看 Comate 活跃指数</td></tr>
+      <tr><td>B 类：全渠道员工</td><td>Comate + Cursor / API Key / Gemini / Coding Plan</td><td>在付费渠道和 Comate 中取主渠道表现</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>产出分按同一质量标准评分；资产沉淀维度按员工权限分赛道，避免 A 类员工因无法使用付费渠道而系统性失分。</p>
+</section>
+
+<section class="section" id="d_s14">
+  <div class="section-header"><span class="sec-num">14</span><h3>AI 使用行为分</h3></div>
+  <div class="subsec"><h4>14.1 A 类员工</h4></div>
+  <div class="code-block">AI 使用行为分 = Comate 活跃指数</div>
+  <div class="subsec"><h4>14.2 B 类员工</h4></div>
+  <div class="code-block">AI 使用行为分 = 主渠道使用分
+
+主渠道使用分 = MAX(付费渠道使用分, Comate 活跃指数)</div>
+  <p>产品经理可以根据任务选择最适合的 AI 渠道，不要求每个渠道都使用。</p>
+  <div class="subsec"><h4>14.3 B 类员工付费资源闲置保护</h4></div>
+  <div class="code-block">若 B 类员工单月付费额度池使用率 < 20%，则仅触发资源适配预警，不直接扣分。
+
+若连续 2 个考核周期付费额度池使用率 < 20%，且无合理低适配说明，
+则当期 AI 使用行为分按 90% 折算。
+
+若连续 3 个考核周期付费额度池使用率 < 20%，
+则进入资源配置复盘，判断是否需要调整额度或员工类型。</div>
+  <p>可接受的低适配说明：</p>
+  <ol>
+    <li>本月主要工作为需求收敛、流程梳理、轻量文档协作，Comate 已能满足。</li>
+    <li>本月处于探索期或收尾期，付费模型使用价值较低。</li>
+    <li>涉及敏感数据、保密项目或渠道权限限制，暂不适合使用外部付费渠道。</li>
+    <li>团队已有共享资产或公共工作流，个人付费额度暂未形成必要投入。</li>
+  </ol>
+</section>
+
+<section class="section" id="d_s15">
+  <div class="section-header"><span class="sec-num">15</span><h3>付费渠道使用分</h3></div>
+  <p>适用于 B 类全渠道员工。</p>
+  <div class="code-block">付费渠道使用分
+= 付费额度池使用率 × 50%
++ 付费有效活跃率 × 50%</div>
+  <div class="subsec"><h4>15.1 付费额度池使用率</h4></div>
+  <div class="code-block">付费额度池使用率 = MIN(付费渠道总消耗金额 / 个人付费额度池总额, 100%)
+
+付费渠道总消耗金额
+= Cursor 消耗 + API Key 消耗 + Gemini 消耗 + Coding Plan 消耗</div>
+  <p>执行要求：</p>
+  <ol>
+    <li>Cursor、API Key、Gemini、Coding Plan 共用一个个人付费额度池。</li>
+    <li>不按单个渠道分别计算独立使用率。</li>
+    <li>分母使用考核周期开始时公司分配的额度池。</li>
+    <li>使用率最高按 100% 计分，超出部分只用于资源扩容或异常分析。</li>
+  </ol>
+  <div class="subsec"><h4>15.2 付费有效活跃率</h4></div>
+  <div class="code-block">付费有效活跃率 = MIN(付费有效使用天数 / 月度目标活跃天数, 100%)</div>
+  <div class="code-block">月度目标活跃天数 = 8 天</div>
+  <p>付费有效使用日定义：</p>
+  <blockquote>当天 Cursor / API Key / Gemini / Coding Plan 等付费渠道有实际消耗，并且对应真实产品工作场景，可计为 1 个付费有效使用日。</blockquote>
+  <p>过渡口径：</p>
+  <div class="code-block">当天付费渠道消耗金额 > 0，则计为 1 个付费有效使用日</div>
+  <p>过渡口径约束：</p>
+  <ol>
+    <li>每月付费有效使用天数上限为 15 天。</li>
+    <li>报表中必须标注该字段为过渡口径。</li>
+    <li>正式纳入绩效前，应至少具备"使用日 + 任务/案例/输出链接"中的一类可追溯证据。</li>
+  </ol>
+  <div class="subsec"><h4>15.3 付费渠道集中消耗封顶</h4></div>
+  <p>为避免少数几天集中消耗拉高行为分，付费渠道使用分需受最低活跃门槛封顶。</p>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>付费有效使用天数</th><th>默认目标 8 天下的区间</th><th>付费渠道使用分上限</th></tr></thead>
+    <tbody>
+      <tr><td>&lt; 目标天数 × 30%</td><td>0 - 2 天</td><td>最高 60 分</td></tr>
+      <tr><td>≥ 目标天数 × 30%，且 &lt; 目标天数 × 60%</td><td>3 - 4 天</td><td>最高 75 分</td></tr>
+      <tr><td>≥ 目标天数 × 60%，且 &lt; 目标天数</td><td>5 - 7 天</td><td>最高 85 分</td></tr>
+      <tr><td>≥ 目标天数</td><td>≥ 8 天</td><td>不额外封顶</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="code-block">最终付费渠道使用分 = MIN(正常公式得分, 对应封顶值)</div>
+  <div class="subsec"><h4>15.4 额度提前用完</h4></div>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>情况</th><th>处理方式</th></tr></thead>
+    <tbody>
+      <tr><td>额度提前用完，且有真实产出</td><td>活跃率按实际有效使用天数计算；若使用天数已达目标，活跃率即 100%</td></tr>
+      <tr><td>额度提前用完，但使用天数不足</td><td>活跃率按实际天数计算，不因额度用完而拉满</td></tr>
+      <tr><td>额度提前用完，且使用天数集中</td><td>先按正常公式计算，再受集中消耗封顶约束</td></tr>
+      <tr><td>额度提前用完，且无有效产出</td><td>一致性门控与产出分硬性下限拦截</td></tr>
+      <tr><td>异常消耗或疑似刷量</td><td>进入资源异常分析流程</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section class="section" id="d_s16">
+  <div class="section-header"><span class="sec-num">16</span><h3>Comate 活跃指数</h3></div>
+  <div class="code-block">Comate 活跃指数
+= Comate 有效活跃率 × 60%
++ Comate 强度得分 × 40%</div>
+  <div class="subsec"><h4>16.1 Comate 有效活跃率</h4></div>
+  <div class="code-block">Comate 有效活跃率 = Comate 有效使用天数 / 统计周期天数</div>
+  <p>有效使用日定义：</p>
+  <blockquote>当天有真实产品工作相关使用记录，并达到最低有效使用门槛，才计为有效使用日。</blockquote>
+  <p>建议最低有效门槛：</p>
+  <div class="code-block">当天 Comate Token 消耗 >= 组织每人每日 Token 基线 × 20%</div>
+  <p>过渡口径：</p>
+  <blockquote>如果暂时无法拿到每日明细，可先用 Comate 后台可导出的使用天数作为过渡口径。过渡口径下，每月 Comate 有效使用天数上限为 20 天。</blockquote>
+  <div class="subsec"><h4>16.2 Comate 强度得分</h4></div>
+  <div class="code-block">个人周期日均 Token = Comate 有效 Token 总消耗 / 统计周期天数
+
+Comate 强度得分 = MIN(个人周期日均 Token / 组织每人每日 Token 基线, 100%)</div>
+  <p>单日峰值截断：</p>
+  <div class="code-block">单日有效 Token = MIN(当天实际 Token 消耗, 组织基线 × 5)
+Comate 有效 Token 总消耗 = Σ 各日单日有效 Token</div>
+  <p>说明：</p>
+  <ol>
+    <li>强度得分分母采用统计周期天数，避免少数几天集中使用被放大。</li>
+    <li>单日 Token 超组织基线 5 倍部分不计入有效 Token。</li>
+    <li>强度得分最高 100%。</li>
+  </ol>
+  <div class="subsec"><h4>16.3 基线校准</h4></div>
+  <div class="code-block">组织每人每日 Token 基线 = 组织全员每人每日 Token 消耗的 P50</div>
+  <p>执行要求：</p>
+  <ol>
+    <li>基线每季度校准一次。</li>
+    <li>校准结果需在考核周期开始前公示。</li>
+    <li>周期内不调整基线。</li>
+  </ol>
+</section>
+
+<section class="section" id="d_s17">
+  <div class="section-header"><span class="sec-num">17</span><h3>AI 有效产出分</h3></div>
+  <div class="code-block">AI 有效产出分
+= 产品工作提效分
++ 产品分析质量分
++ 可复用资产沉淀分
++ 团队复用与影响分</div>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>维度</th><th>分值</th><th>考核重点</th></tr></thead>
+    <tbody>
+      <tr><td>产品工作提效</td><td>20</td><td>是否减少重复劳动、提升交付效率</td></tr>
+      <tr><td>产品分析质量</td><td>25</td><td>是否支撑需求、竞品、用户、数据分析</td></tr>
+      <tr><td>可复用资产沉淀</td><td>35</td><td>是否沉淀 Agent、Skill、Prompt、知识库、SOP 等资产</td></tr>
+      <tr><td>团队复用与影响</td><td>20</td><td>是否被他人使用，是否进入团队流程</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="subsec"><h4>17.1 产品工作提效，20 分</h4></div>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>得分</th><th>标准</th></tr></thead>
+    <tbody>
+      <tr><td>0</td><td>无 AI 辅助工作证据</td></tr>
+      <tr><td>5</td><td>偶尔用于总结、改写、翻译等低复杂度任务</td></tr>
+      <tr><td>10</td><td>能稳定辅助会议纪要、需求整理、PRD 初稿等工作</td></tr>
+      <tr><td>15</td><td>能明显减少重复劳动，有前后对比样例或负责人确认</td></tr>
+      <tr><td>20</td><td>已形成稳定 AI 工作流，能持续提升交付效率</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="subsec"><h4>17.2 产品分析质量，25 分</h4></div>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>得分</th><th>标准</th></tr></thead>
+    <tbody>
+      <tr><td>0</td><td>无 AI 辅助分析证据</td></tr>
+      <tr><td>8</td><td>有简单分析材料，但结论较浅或未被使用</td></tr>
+      <tr><td>15</td><td>分析较完整，能支撑需求讨论或评审</td></tr>
+      <tr><td>20</td><td>分析结论被用于需求优先级、方案取舍或版本规划</td></tr>
+      <tr><td>25</td><td>分析显著提升产品决策质量，并沉淀为可复用分析方法</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="subsec"><h4>17.3 可复用资产沉淀，35 分</h4></div>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>子项</th><th>分值</th><th>标准</th></tr></thead>
+    <tbody>
+      <tr><td>资产完整度</td><td>10</td><td>有明确适用场景、输入、输出、使用说明</td></tr>
+      <tr><td>真实业务使用</td><td>10</td><td>已用于真实需求、分析、评审、复盘等工作</td></tr>
+      <tr><td>可复用性</td><td>10</td><td>他人可按说明复用，结果基本稳定</td></tr>
+      <tr><td>迭代优化</td><td>5</td><td>基于使用反馈持续优化</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>可计入资产包括：</p>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>资产类型</th><th>示例</th></tr></thead>
+    <tbody>
+      <tr><td>Agent</td><td>用户反馈分析 Agent、竞品研究 Agent、PRD 评审 Agent</td></tr>
+      <tr><td>Skill</td><td>需求拆解 Skill、场景分析 Skill、功能验收 Skill</td></tr>
+      <tr><td>Prompt 模板</td><td>竞品分析 Prompt、PRD 生成 Prompt、用户访谈 Prompt</td></tr>
+      <tr><td>工作流</td><td>从用户反馈到需求池的自动化流程</td></tr>
+      <tr><td>知识库</td><td>产品 FAQ、业务规则库、竞品资料库</td></tr>
+      <tr><td>评测集</td><td>Agent 输出质量评测样例、典型需求样本集</td></tr>
+      <tr><td>SOP</td><td>AI 辅助需求分析流程、AI 辅助版本复盘流程</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="subsec"><h4>17.4 团队复用与影响，20 分</h4></div>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>得分</th><th>标准</th></tr></thead>
+    <tbody>
+      <tr><td>0</td><td>仅个人使用，无分享和复用</td></tr>
+      <tr><td>5</td><td>在小范围分享过经验或案例</td></tr>
+      <tr><td>10</td><td>至少 1 名同事实际复用，并有反馈</td></tr>
+      <tr><td>15</td><td>多名同事复用，或进入团队模板库、知识库、流程</td></tr>
+      <tr><td>20</td><td>形成团队级最佳实践，对多人效率或质量有持续帮助</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section class="section" id="d_s18">
+  <div class="section-header"><span class="sec-num">18</span><h3>证据等级与评分上限</h3></div>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>证据等级</th><th>说明</th><th>可评上限</th></tr></thead>
+    <tbody>
+      <tr><td>L0 无证据</td><td>只有口头描述或无法追溯</td><td>该项最高 20%</td></tr>
+      <tr><td>L1 自述证据</td><td>有个人说明，但缺少样例或链接</td><td>该项最高 35%</td></tr>
+      <tr><td>L2 样例证据</td><td>有文档、截图、Prompt、Agent、Skill、输出样例等</td><td>该项最高 60%</td></tr>
+      <tr><td>L3 采纳证据</td><td>进入评审、规划、需求池、方案决策，或被同事引用</td><td>该项最高 85%</td></tr>
+      <tr><td>L4 复用证据</td><td>被团队成员复用，或进入团队 SOP / 工具 / 模板库</td><td>该项最高 100%</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>执行规则：</p>
+  <ol>
+    <li>每个维度先按质量评分，再受证据等级上限约束，取两者较小值。</li>
+    <li>只有 L3 或 L4 证据，才能拿到该维度高分。</li>
+    <li>同一业务事件不得在多个维度重复高分计入。</li>
+    <li>每月建议最多提交 3 个代表性案例，不以提交数量取胜。</li>
+  </ol>
+</section>
+
+<section class="section" id="d_s19">
+  <div class="section-header"><span class="sec-num">19</span><h3>项目阶段替代证据</h3></div>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>项目阶段</th><th>可接受的 L3 替代证据</th><th>可接受的 L4 替代证据</th></tr></thead>
+    <tbody>
+      <tr><td>探索期</td><td>机会点、访谈提纲、竞品分析、方案假设被负责人采纳并入库</td><td>方法或模板被后续项目复用，或被同事用于同类探索任务</td></tr>
+      <tr><td>交付期</td><td>产出进入需求评审、版本规划、需求池或方案决策</td><td>产出进入团队模板库、SOP，或被多名同事复用</td></tr>
+      <tr><td>运营期</td><td>AI 辅助分析结论被用于优化决策、问题归因或运营动作</td><td>分析方法、Agent、Skill、看板模板被团队持续复用</td></tr>
+      <tr><td>收尾期</td><td>复盘结论、交接文档、SOP 被负责人采纳并入库</td><td>交接模板、复盘模板、SOP 被团队后续项目复用</td></tr>
+      <tr><td>保密或独立项目</td><td>脱敏摘要 + 负责人书面采纳记录 + PMO 可核验原始材料</td><td>脱敏方法论、通用流程或可公开部分进入团队资产库</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <blockquote>替代证据只替代证据形态，不降低质量要求。</blockquote>
+</section>
+
+<section class="section" id="d_s20">
+  <div class="section-header"><span class="sec-num">20</span><h3>重复认定规则</h3></div>
+  <ol>
+    <li>重复判定单位为"业务事件"，不是文件。</li>
+    <li>每个案例提交时须声明主维度与辅助维度。</li>
+    <li>主维度按正常标准评分。</li>
+    <li>辅助维度评分上限降为该维度满分的 50%，且须提供独立证据。</li>
+    <li>每个案例最多声明 1 个主维度 + 2 个辅助维度。</li>
+    <li>若某月无评审或版本节点，可提交跨周期累积证据，但须注明原始产出时间。</li>
+  </ol>
+</section>
+
+<section class="section" id="d_s21">
+  <div class="section-header"><span class="sec-num">21</span><h3>一致性门控与硬性下限</h3></div>
+  <div class="subsec"><h4>21.1 一致性门控</h4></div>
+  <div class="code-block">一致性偏差 = |AI 使用行为分 − AI 有效产出分|</div>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>偏差区间</th><th>处理方式</th></tr></thead>
+    <tbody>
+      <tr><td>&lt; 20 分</td><td>正常计分</td></tr>
+      <tr><td>[20, 25) 分</td><td>触发预警，校准会议关注</td></tr>
+      <tr><td>≥ 25 分</td><td>进入一致性校验流程</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>一致性校验：</p>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>情况</th><th>处理方式</th></tr></thead>
+    <tbody>
+      <tr><td>行为分高于产出分 ≥ 25</td><td>补充产出证据；复核不通过则行为分按 70% 折算</td></tr>
+      <tr><td>产出分高于行为分 ≥ 25</td><td>补充使用过程证据；复核不通过则产出分按 70% 折算</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>合理偏差类型：</p>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>类型</th><th>处理方式</th></tr></thead>
+    <tbody>
+      <tr><td>产出滞后</td><td>允许在下周期补充采纳或复用证据</td></tr>
+      <tr><td>跨周期复用</td><td>提供历史资产链接和本月复用证据后可正常认定</td></tr>
+      <tr><td>项目阶段差异</td><td>按项目阶段替代证据处理</td></tr>
+      <tr><td>渠道统计缺失</td><td>提供会话、截图、文档版本或负责人确认后人工复核</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="subsec"><h4>21.2 产出分硬性下限</h4></div>
+  <div class="callout danger">若 AI 有效产出分 &lt; 40 分，则最终指数不超过 50 分。</div>
+</section>
+
+<section class="section" id="d_s22">
+  <div class="section-header"><span class="sec-num">22</span><h3>证据包要求</h3></div>
+  <p>每个有效产出案例建议包含以下字段：</p>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>字段</th><th>填写要求</th></tr></thead>
+    <tbody>
+      <tr><td>案例名称</td><td>简明说明产出内容</td></tr>
+      <tr><td>对应维度</td><td>主维度：提效 / 分析 / 资产 / 复用；辅助维度如有需说明</td></tr>
+      <tr><td>项目阶段</td><td>探索期 / 交付期 / 运营期 / 收尾期 / 保密或独立项目</td></tr>
+      <tr><td>使用场景</td><td>需求分析、竞品分析、PRD 评审、用户反馈等</td></tr>
+      <tr><td>使用的 AI 渠道</td><td>Comate / Cursor / API Key / Gemini / Coding Plan</td></tr>
+      <tr><td>输入材料</td><td>使用了哪些需求、反馈、竞品、数据</td></tr>
+      <tr><td>AI 产出</td><td>文档、Agent、Skill、Prompt、流程、分析结果链接</td></tr>
+      <tr><td>AI 原始输出</td><td>AI 生成的原始版本，用于核验人工判断</td></tr>
+      <tr><td>人工判断</td><td>PM 做了哪些判断、筛选、修正</td></tr>
+      <tr><td>业务使用</td><td>是否进入评审、需求池、版本规划或团队流程</td></tr>
+      <tr><td>复用情况</td><td>是否被他人使用，是否有反馈</td></tr>
+      <tr><td>效果说明</td><td>节省时间、提升质量、减少遗漏、支撑决策等</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section class="section" id="d_s23">
+  <div class="section-header"><span class="sec-num">23</span><h3>证据脱敏与访问权限</h3></div>
+  <ol>
+    <li>涉及用户隐私、商业数据、未公开版本规划、竞品敏感信息时，员工应优先提交脱敏摘要。</li>
+    <li>原始材料仅向直属负责人、PMO 或指定复核人开放，不在团队公开空间传播。</li>
+    <li>证据链接应设置最小可见范围。</li>
+    <li>评审记录只保存评分依据和脱敏结论，不复制保存不必要的原始敏感数据。</li>
+    <li>如因保密限制无法提交原始链接，可由负责人书面确认"已核验原始材料"，并附脱敏摘要。</li>
+    <li>证据包保存周期建议不超过 12 个月；超过周期后仅保留得分、分档和脱敏案例摘要。</li>
+  </ol>
+</section>
+
+<section class="section" id="d_s24">
+  <div class="section-header"><span class="sec-num">24</span><h3>月度执行流程</h3></div>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>阶段</th><th>动作</th><th>责任人</th><th>时限</th></tr></thead>
+    <tbody>
+      <tr><td>月初</td><td>确认员工类型、额度池、统计周期、Token 基线</td><td>管理者 / PMO</td><td>月初 3 个工作日内</td></tr>
+      <tr><td>月中</td><td>员工持续沉淀 AI 使用案例和资产链接</td><td>产品经理</td><td>持续</td></tr>
+      <tr><td>月末</td><td>员工提交 1-3 个代表性案例和证据包</td><td>产品经理</td><td>月末 5 个工作日内</td></tr>
+      <tr><td>初评</td><td>直属负责人按评分细则与客观锚点打分</td><td>直属负责人</td><td>提交后 3 个工作日内</td></tr>
+      <tr><td>校准</td><td>同组或跨组负责人抽样复核，统一口径</td><td>产品负责人 / PMO</td><td>初评后 2 个工作日内</td></tr>
+      <tr><td>同行复核</td><td>对一致性门控触发案例，由 1 名同行 PM 复核</td><td>指定同行 PM</td><td>校准后 2 个工作日内</td></tr>
+      <tr><td>反馈</td><td>输出得分、分档、短板和下月改进建议</td><td>直属负责人</td><td>反馈周期内</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>执行成本控制：</p>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>案例类型</th><th>月度处理方式</th><th>季度处理方式</th></tr></thead>
+    <tbody>
+      <tr><td>普通案例</td><td>员工提交 1-3 个代表性案例，负责人按量表快速评分</td><td>抽样复核，不要求全量深审</td></tr>
+      <tr><td>高分案例</td><td>产出分 ≥ 80 或最终指数 ≥ 80，必须进入校准抽样池</td><td>复核是否具备可推广价值</td></tr>
+      <tr><td>异常案例</td><td>触发一致性门控、集中消耗、付费闲置、L1 占比异常等</td><td>复盘套利风险和阈值合理性</td></tr>
+      <tr><td>申诉案例</td><td>按申诉路径复核</td><td>纳入季度口径校准</td></tr>
+      <tr><td>团队级资产</td><td>月度记录入库与复用情况</td><td>季度集中评审资产质量和复用效果</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section class="section" id="d_s25">
+  <div class="section-header"><span class="sec-num">25</span><h3>校准、异常与申诉</h3></div>
+  <div class="subsec"><h4>25.1 校准机制</h4></div>
+  <ol>
+    <li>校准抽样不低于团队人数的 20%，且至少覆盖 1 个高分案例和 1 个低分案例。</li>
+    <li>初评与校准偏差超过 10 分的案例，进入复评。</li>
+    <li>每档分数须勾选对应事实，避免纯印象打分。</li>
+    <li>校准会议由 PMO 主持，记录跨团队口径调整决议。</li>
+  </ol>
+  <div class="subsec"><h4>25.2 异常触发阈值</h4></div>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>信号</th><th>阈值</th><th>触发动作</th></tr></thead>
+    <tbody>
+      <tr><td>月初突击消耗</td><td>月初前 5 个自然日，付费额度使用率 ≥ 80%</td><td>进入异常分析</td></tr>
+      <tr><td>付费集中消耗</td><td>付费有效使用天数低于目标活跃天数，且付费渠道使用分高于对应封顶值</td><td>按集中消耗封顶规则修正</td></tr>
+      <tr><td>单日 Token 峰值</td><td>单日 Comate Token 消耗 ≥ 组织基线 × 10 倍</td><td>进入异常分析</td></tr>
+      <tr><td>一致性偏差</td><td>行为分与产出分偏差 ≥ 25 分</td><td>进入一致性校验</td></tr>
+      <tr><td>产出分硬性下限</td><td>产出分 &lt; 40 分</td><td>最终指数封顶 50 分</td></tr>
+      <tr><td>L1 证据占比异常</td><td>团队内 L1 证据占比超过 40%</td><td>校准会议复核团队口径</td></tr>
+      <tr><td>付费资源闲置预警</td><td>B 类员工单月付费额度使用率 &lt; 20%</td><td>资源适配预警，不直接扣分</td></tr>
+      <tr><td>付费资源连续闲置</td><td>B 类员工连续 2 个周期付费额度使用率 &lt; 20%，且无合理低适配说明</td><td>行为分按 90% 折算</td></tr>
+      <tr><td>过渡口径依赖过高</td><td>有效使用天数主要来自"消耗&gt;0"或"有使用即计"</td><td>标记为试运行风险</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="subsec"><h4>25.3 异常处理流程</h4></div>
+  <div class="code-block">触发 → 通知员工（说明触发信号与依据）
+     → 员工限期补充产出证据或使用过程证据（3 个工作日）
+     → PMO 复核（2 个工作日）
+     → 结论：正常 / 扣分 / 折算 / 扩容 / 移交处理
+     → 记录归档</div>
+  <div class="subsec"><h4>25.4 申诉路径</h4></div>
+  <ol>
+    <li>员工对异常分析结论有异议，可在收到结论后 3 个工作日内发起申诉。</li>
+    <li>申诉由产品负责人与 PMO 联合复核，5 个工作日内给出终局结论。</li>
+    <li>申诉期间，原结论暂缓执行，以复核结论为准。</li>
+    <li>申诉记录归档，用于校准异常阈值的合理性。</li>
+  </ol>
+</section>
+
+<section class="section" id="d_s26">
+  <div class="section-header"><span class="sec-num">26</span><h3>推荐分档</h3></div>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>得分</th><th>解释</th><th>建议动作</th></tr></thead>
+    <tbody>
+      <tr><td>0 - 40</td><td>AI 使用不足，需引导</td><td>安排基础培训，明确可用场景</td></tr>
+      <tr><td>40 - 60</td><td>已开始使用，但沉淀不足</td><td>引导形成固定工作流和案例沉淀</td></tr>
+      <tr><td>60 - 80</td><td>使用较充分，能形成有效产出</td><td>鼓励沉淀 Agent、Skill、模板、SOP</td></tr>
+      <tr><td>80 - 100</td><td>高频有效使用，并有可复用资产沉淀</td><td>推广经验，纳入团队最佳实践</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section class="section" id="d_s27">
+  <div class="section-header"><span class="sec-num">27</span><h3>报表字段</h3></div>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>字段</th><th>说明</th><th>数据源</th><th>采集方式</th></tr></thead>
+    <tbody>
+      <tr><td>员工姓名</td><td>产品经理姓名</td><td>HR 系统</td><td>自动</td></tr>
+      <tr><td>员工类型</td><td>仅 Comate / 全渠道</td><td>HR 系统</td><td>自动</td></tr>
+      <tr><td>统计周期</td><td>自然月</td><td>考核系统</td><td>自动</td></tr>
+      <tr><td>个人付费额度池</td><td>考核周期开始时公司分配额度</td><td>财务 / PMO</td><td>月初确认</td></tr>
+      <tr><td>付费渠道已消耗金额</td><td>Cursor + API Key + Gemini + Coding Plan</td><td>各渠道后台</td><td>月末拉取</td></tr>
+      <tr><td>付费有效使用天数</td><td>有真实产品工作消耗的付费渠道使用天数</td><td>渠道流水 / 人工</td><td>过渡口径需标注</td></tr>
+      <tr><td>月度目标活跃天数</td><td>默认 8 天</td><td>配置</td><td>自动</td></tr>
+      <tr><td>Comate Token 总消耗</td><td>Comate 使用规模</td><td>Comate 后台</td><td>月末拉取</td></tr>
+      <tr><td>Comate 有效使用天数</td><td>真实产品工作相关使用天数</td><td>Comate 后台 / 人工</td><td>过渡口径需标注</td></tr>
+      <tr><td>组织每日 Token 基线</td><td>组织全员 P50</td><td>PMO 统计</td><td>季度更新</td></tr>
+      <tr><td>项目阶段标签</td><td>探索期 / 交付期 / 运营期 / 收尾期 / 保密或独立项目</td><td>员工提交 + 负责人确认</td><td>人工</td></tr>
+      <tr><td>产品工作提效分</td><td>0 - 20</td><td>人工评分</td><td>初评 + 校准</td></tr>
+      <tr><td>产品分析质量分</td><td>0 - 25</td><td>人工评分</td><td>初评 + 校准</td></tr>
+      <tr><td>可复用资产沉淀分</td><td>0 - 35</td><td>人工评分</td><td>初评 + 校准</td></tr>
+      <tr><td>团队复用与影响分</td><td>0 - 20</td><td>人工评分</td><td>初评 + 校准</td></tr>
+      <tr><td>最高证据等级</td><td>L0 / L1 / L2 / L3 / L4</td><td>人工判定</td><td>初评 + 校准</td></tr>
+      <tr><td>替代证据类型</td><td>L3 多路径 / 项目阶段替代 / 跨周期复用 / 脱敏核验</td><td>人工判定</td><td>初评 + 校准</td></tr>
+      <tr><td>证据脱敏状态</td><td>无敏感信息 / 已脱敏 / 原始材料限权访问</td><td>员工提交 + PMO</td><td>人工</td></tr>
+      <tr><td>AI 使用行为分</td><td>按员工类型计算</td><td>计算</td><td>自动</td></tr>
+      <tr><td>AI 有效产出分</td><td>四项产出分合计</td><td>计算</td><td>自动</td></tr>
+      <tr><td>一致性偏差</td><td>行为分与产出分差值绝对值</td><td>计算</td><td>自动</td></tr>
+      <tr><td>最终指数</td><td>产品经理 AI 应用能力指数</td><td>计算</td><td>自动</td></tr>
+      <tr><td>结果分档</td><td>0-40 / 40-60 / 60-80 / 80-100</td><td>计算</td><td>自动</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section class="section" id="d_s28">
+  <div class="section-header"><span class="sec-num">28</span><h3>试运行要求</h3></div>
+  <p>试运行启动前必须完成：</p>
+  <ol>
+    <li>数据采集方案确认。</li>
+    <li>过渡口径公示。</li>
+    <li>评分量表下发。</li>
+    <li>异常阈值确认。</li>
+    <li>Token 基线首次校准。</li>
+    <li>项目阶段标签确认。</li>
+    <li>证据脱敏规范确认。</li>
+  </ol>
+  <p>试运行期间重点观察：</p>
+  <ol>
+    <li>员工提交证据是否容易核验。</li>
+    <li>各团队评分口径是否一致。</li>
+    <li>是否出现刷 Token、刷材料、刷资产数量。</li>
+    <li>Agent、Skill、Prompt、SOP 等资产是否真的被团队复用。</li>
+    <li>一致性门控与异常分析是否有效。</li>
+    <li>月度评审成本是否可控。</li>
+  </ol>
+  <blockquote>试运行期建议不直接硬挂绩效。正式纳入绩效前，应完成数据口径、评分量表、申诉机制和证据脱敏机制的验证。</blockquote>
+</section>
+<section class="section" id="d_s29">
+  <div class="section-header"><span class="sec-num">29</span><h3>考核计算器</h3></div>
+  <p>输入参数后点击"开始计算"，系统会自动算出 AI 使用行为分、AI 有效产出分、一致性偏差和最终指数，并给出分析和建议。</p>
+  <div class="calc-tool">
+    <h4>产品经理 AI 应用能力考核计算器</h4>
+    <p class="calc-desc">支持 A 类（仅 Comate）和 B 类（全渠道）员工。B 类员工可调整行为分和产出分权重。所有参数均可手动调整。</p>
+    <div class="calc-grid">
+      <div class="calc-panel">
+        <h5>员工类型与基本信息</h5>
+        <div class="calc-row"><label>员工类型</label><select id="f_empType"><option value="A">A 类（仅 Comate）</option><option value="B" selected>B 类（全渠道）</option></select></div>
+        <div class="calc-row"><label>统计周期天数</label><input type="number" id="f_cycleDays" value="22" min="1" max="31"><span class="unit">天</span></div>
+      </div>
+      <div class="calc-panel">
+        <h5>付费渠道（B 类）</h5>
+        <div class="calc-row"><label>个人付费额度池</label><input type="number" id="f_poolAmount" value="500" min="0"><span class="unit">元</span></div>
+        <div class="calc-row"><label>已消耗金额</label><input type="number" id="f_poolUsed" value="400" min="0"><span class="unit">元</span></div>
+        <div class="calc-row"><label>付费有效使用天数</label><input type="number" id="f_paidDays" value="10" min="0" max="31"><span class="unit">天</span></div>
+        <div class="calc-row"><label>月度目标活跃天数</label><input type="number" id="f_paidTargetDays" value="8" min="1" max="31"><span class="unit">天</span></div>
+      </div>
+      <div class="calc-panel">
+        <h5>Comate 使用</h5>
+        <div class="calc-row"><label>Comate 有效使用天数</label><input type="number" id="f_comateDays" value="18" min="0" max="31"><span class="unit">天</span></div>
+        <div class="calc-row"><label>Comate Token 总消耗</label><input type="number" id="f_comateTokens" value="220000" min="0"><span class="unit">token</span></div>
+        <div class="calc-row"><label>组织每日 Token 基线</label><input type="number" id="f_orgBaseline" value="10000" min="1"><span class="unit">token</span></div>
+      </div>
+      <div class="calc-panel">
+        <h5>有效产出评分</h5>
+        <div class="calc-row"><label>产品工作提效（0-20）</label><input type="number" id="f_scoreEff" value="15" min="0" max="20"><span class="unit">分</span></div>
+        <div class="calc-row"><label>产品分析质量（0-25）</label><input type="number" id="f_scoreAna" value="20" min="0" max="25"><span class="unit">分</span></div>
+        <div class="calc-row"><label>可复用资产沉淀（0-35）</label><input type="number" id="f_scoreAsset" value="25" min="0" max="35"><span class="unit">分</span></div>
+        <div class="calc-row"><label>团队复用与影响（0-20）</label><input type="number" id="f_scoreTeam" value="16" min="0" max="20"><span class="unit">分</span></div>
+      </div>
+      <div class="calc-panel">
+        <h5>权重配置</h5>
+        <div class="weight-row">
+          <div class="w-label"><span>行为分权重</span><span class="w-val" id="f_wBehaviorDisp">40%</span></div>
+          <input type="range" id="f_wBehavior" min="20" max="60" value="40" step="5">
+        </div>
+        <div class="weight-row">
+          <div class="w-label"><span>产出分权重</span><span class="w-val" id="f_wUsageDisp">50%</span></div>
+          <input type="range" id="f_wUsage" min="30" max="70" value="50" step="5">
+        </div>
+        <div class="weight-row">
+          <div class="w-label"><span>Comate 活跃权重</span><span class="w-val" id="f_wComateActiveDisp">60%</span></div>
+          <input type="range" id="f_wComateActive" min="40" max="80" value="60" step="5">
+        </div>
+      </div>
+      <div class="calc-panel">
+        <h5>门控与异常参数</h5>
+        <div class="calc-row"><label>一致性门控阈值</label><input type="number" id="f_gateCheck" value="25" min="10" max="40"><span class="unit">分</span></div>
+        <div class="calc-row"><label>一致性预警阈值</label><input type="number" id="f_gateWarn" value="20" min="5" max="35"><span class="unit">分</span></div>
+        <div class="calc-row"><label>产出分硬性下限</label><input type="number" id="f_gateFloor" value="40" min="20" max="60"><span class="unit">分</span></div>
+        <div class="calc-row"><label>硬性下限封顶</label><input type="number" id="f_gateCap" value="50" min="30" max="70"><span class="unit">分</span></div>
+        <div class="calc-row"><label>付费闲置阈值</label><input type="number" id="f_idleThreshold" value="20" min="5" max="50"><span class="unit">%</span></div>
+        <div class="calc-row"><label>闲置折算系数</label><input type="number" id="f_idleDiscount" value="90" min="50" max="100"><span class="unit">%</span></div>
+        <div class="calc-row"><label>是否连续闲置</label><select id="f_consecutiveIdle"><option value="no">否</option><option value="2">连续 2 周期</option><option value="3">连续 3 周期</option></select></div>
+      </div>
+    </div>
+    <div class="calc-actions">
+      <button class="btn-primary" id="f_btnCalculate">开始计算</button>
+      <button class="btn-secondary" id="f_btnReset">恢复默认</button>
+    </div>
+    <div class="calc-results" id="f_calcResults">
+      <div class="result-grid" id="f_resultGrid"></div>
+      <div class="calc-trace" id="f_calcTrace"></div>
+      <div class="calc-analysis" id="f_analysisBody"></div>
+    </div>
+  </div>
+</section>
+</div><!-- /tab-detail -->
+</main>
+
+<button class="back-top" id="backTop" aria-label="返回顶部">↑</button>
+
+<script>
+// ============================================================
+// TAB SWITCHING
+// ============================================================
+var tabConfigs = {
+  overview: {
+    subtitle: '方案概览 · 决策摘要',
+    sections: [
+      { id: 'o_s1', num: '01', title: '一句话结论' },
+      { id: 'o_s2', num: '02', title: '为什么要做' },
+      { id: 'o_s3', num: '03', title: '总体考核框架' },
+      { id: 'o_s4', num: '04', title: '有效产出看四类' },
+      { id: 'o_s5', num: '05', title: '如何保证公平' },
+      { id: 'o_s6', num: '06', title: '如何防止刷量和套利' },
+      { id: 'o_s7', num: '07', title: '落地方式' },
+      { id: 'o_s8', num: '08', title: '试运行建议' },
+      { id: 'o_s9', num: '09', title: '关键决策事项' }
+    ]
+  },
+  detail: {
+    subtitle: '操作细则 · 执行手册',
+    sections: [
+      { id: 'd_s11', num: '11', title: '适用范围' },
+      { id: 'd_s12', num: '12', title: '总体公式' },
+      { id: 'd_s13', num: '13', title: '员工分类' },
+      { id: 'd_s14', num: '14', title: 'AI 使用行为分' },
+      { id: 'd_s15', num: '15', title: '付费渠道使用分' },
+      { id: 'd_s16', num: '16', title: 'Comate 活跃指数' },
+      { id: 'd_s17', num: '17', title: 'AI 有效产出分' },
+      { id: 'd_s18', num: '18', title: '证据等级与评分上限' },
+      { id: 'd_s19', num: '19', title: '项目阶段替代证据' },
+      { id: 'd_s20', num: '20', title: '重复认定规则' },
+      { id: 'd_s21', num: '21', title: '一致性门控与硬性下限' },
+      { id: 'd_s22', num: '22', title: '证据包要求' },
+      { id: 'd_s23', num: '23', title: '证据脱敏与访问权限' },
+      { id: 'd_s24', num: '24', title: '月度执行流程' },
+      { id: 'd_s25', num: '25', title: '校准、异常与申诉' },
+      { id: 'd_s26', num: '26', title: '推荐分档' },
+      { id: 'd_s27', num: '27', title: '报表字段' },
+      { id: 'd_s28', num: '28', title: '试运行要求' },
+      { id: 'd_s29', num: '29', title: '考核计算器' }
+    ]
+  },
+  formula: {
+    subtitle: '统一计量 · 消耗用量换算',
+    sections: [
+      { id: 'm_s1', num: '01', title: '统一计量单位' },
+      { id: 'm_s2', num: '02', title: '总换算公式' },
+      { id: 'm_s3', num: '03', title: '员工分类与适用' },
+      { id: 'm_s4', num: '04', title: 'Comate Token 换算' },
+      { id: 'm_s5', num: '05', title: '付费渠道消耗换算' },
+      { id: 'm_s6', num: '06', title: '使用天数换算' },
+      { id: 'm_s7', num: '07', title: '集中消耗封顶' },
+      { id: 'm_s8', num: '08', title: '闲置保护' },
+      { id: 'm_s9', num: '09', title: '换算系数总表' },
+      { id: 'm_s10', num: '10', title: '用量计算器' }
+    ]
+  }
+};
+
+var currentTab = 'overview';
+
+function switchTab(tab) {
+  currentTab = tab;
+  // Tab buttons
+  document.querySelectorAll('.tab-btn').forEach(function(btn) {
+    btn.classList.toggle('active', btn.getAttribute('data-tab') === tab);
+  });
+  // Tab content
+  document.querySelectorAll('.tab-content').forEach(function(c) {
+    c.classList.toggle('active', c.id === 'tab-' + tab);
+  });
+  // Sidebar
+  var cfg = tabConfigs[tab];
+  document.getElementById('sidebarSub').textContent = cfg.subtitle;
+  var nav = document.getElementById('sidebarNav');
+  nav.innerHTML = '';
+  cfg.sections.forEach(function(s) {
+    var li = document.createElement('li');
+    var a = document.createElement('a');
+    a.href = '#' + s.id;
+    a.innerHTML = '<span class="num">' + s.num + '</span>' + s.title;
+    a.addEventListener('click', function(e) {
+      e.preventDefault();
+      var el = document.getElementById(s.id);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+    li.appendChild(a);
+    nav.appendChild(li);
+  });
+  // Scroll to top
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  // Update active nav
+  setTimeout(updateActiveNav, 100);
+}
+
+// ============================================================
+// SIDEBAR NAV HIGHLIGHTING
+// ============================================================
+function updateActiveNav() {
+  var cfg = tabConfigs[currentTab];
+  if (!cfg) return;
+  var scrollY = window.scrollY;
+  var current = '';
+  cfg.sections.forEach(function(s) {
+    var el = document.getElementById(s.id);
+    if (el && scrollY >= el.offsetTop - 80) current = s.id;
+  });
+  document.querySelectorAll('.sidebar-nav li a').forEach(function(a) {
+    var href = a.getAttribute('href');
+    a.classList.toggle('active', href === '#' + current);
+  });
+}
+
+window.addEventListener('scroll', updateActiveNav);
+
+// ============================================================
+// BACK TO TOP
+// ============================================================
+var backTopBtn = document.getElementById('backTop');
+window.addEventListener('scroll', function() {
+  backTopBtn.classList.toggle('visible', window.scrollY > 600);
+});
+backTopBtn.addEventListener('click', function() {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+// ============================================================
+// FULL CALCULATOR (Tab 2, f_ prefix)
+// ============================================================
+(function() {
+  'use strict';
+  function f$(id) { return document.getElementById(id); }
+  function fnum(id) { return parseFloat(f$(id).value) || 0; }
+  function ffmt(v) { return (Math.round(v * 100) / 100).toFixed(2); }
+
+  // Weight sliders for full calculator
+  function wireWeightF(sliderId, valId, dispId, complementDispId) {
+    var slider = f$(sliderId);
+    if (!slider) return;
+    function update() {
+      var v = parseInt(slider.value);
+      var c = 100 - v;
+      if (f$(valId)) f$(valId).textContent = v + '%';
+      if (f$(dispId)) f$(dispId).textContent = v + '%';
+      if (complementDispId && f$(complementDispId)) f$(complementDispId).textContent = c + '%';
+    }
+    slider.addEventListener('input', update);
+    slider.addEventListener('change', function() {
+      if (f$('f_calcResults').style.display === 'block') runCalcF();
+    });
+    update();
+  }
+  wireWeightF('f_wBehavior', 'f_wBehaviorDisp', 'f_wBehaviorDisp', null);
+  wireWeightF('f_wUsage', 'f_wUsageDisp', 'f_wUsageDisp', null);
+  wireWeightF('f_wComateActive', 'f_wComateActiveDisp', 'f_wComateActiveDisp', null);
+
+  function runCalcF() {
+    var empType = f$('f_empType').value;
+    var cycleDays = fnum('f_cycleDays');
+    var comateDays = fnum('f_comateDays');
+    var comateTokens = fnum('f_comateTokens');
+    var orgBaseline = fnum('f_orgBaseline');
+    var wComateActive = fnum('f_wComateActive') / 100;
+    var wComateStrength = 1 - wComateActive;
+    var wBehavior = fnum('f_wBehavior') / 100;
+    var wOutput = 1 - wBehavior;
+
+    var trace = '';
+
+    // Comate
+    var comateActiveRate = cycleDays > 0 ? Math.min(comateDays / cycleDays, 1) : 0;
+    var avgDailyToken = cycleDays > 0 ? comateTokens / cycleDays : 0;
+    var comateStrength = orgBaseline > 0 ? Math.min(avgDailyToken / orgBaseline, 1) : 0;
+    var comateIndex = comateActiveRate * wComateActive * 100 + comateStrength * wComateStrength * 100;
+
+    trace += '=== Comate 活跃指数 ===\n';
+    trace += '有效活跃率 = ' + comateDays + ' / ' + cycleDays + ' = ' + ffmt(comateActiveRate * 100) + '%\n';
+    trace += '日均 Token = ' + ffmt(avgDailyToken) + '\n';
+    trace += '强度得分 = MIN(' + ffmt(avgDailyToken) + ' / ' + orgBaseline + ', 100%) = ' + ffmt(comateStrength * 100) + '%\n';
+    trace += 'Comate 活跃指数 = ' + ffmt(comateActiveRate * 100) + '×' + ffmt(wComateActive * 100) + '% + ' + ffmt(comateStrength * 100) + '×' + ffmt(wComateStrength * 100) + '% = ' + ffmt(comateIndex) + '\n\n';
+
+    var behaviorScore = 0;
+    var paidScore = 0;
+
+    if (empType === 'A') {
+      behaviorScore = comateIndex;
+      trace += '=== A 类员工 ===\n';
+      trace += 'AI 使用行为分 = Comate 活跃指数 = ' + ffmt(behaviorScore) + '\n';
+    } else {
+      // Paid channel
+      var poolAmount = fnum('f_poolAmount');
+      var poolUsed = fnum('f_poolUsed');
+      var paidDays = fnum('f_paidDays');
+      var paidTargetDays = fnum('f_paidTargetDays');
+      var wUsage = fnum('f_wUsage') / 100;
+      var wActive = 1 - wUsage;
+
+      var usageRate = poolAmount > 0 ? Math.min(poolUsed / poolAmount, 1) : 0;
+      var activeRate = paidTargetDays > 0 ? Math.min(paidDays / paidTargetDays, 1) : 0;
+      paidScore = usageRate * wUsage * 100 + activeRate * wActive * 100;
+
+      trace += '=== 付费渠道使用分 ===\n';
+      trace += '使用率 = MIN(' + poolUsed + ' / ' + poolAmount + ', 100%) = ' + ffmt(usageRate * 100) + '%\n';
+      trace += '有效活跃率 = MIN(' + paidDays + ' / ' + paidTargetDays + ', 100%) = ' + ffmt(activeRate * 100) + '%\n';
+      trace += '付费渠道使用分 = ' + ffmt(usageRate * 100) + '×' + ffmt(wUsage * 100) + '% + ' + ffmt(activeRate * 100) + '×' + ffmt(wActive * 100) + '% = ' + ffmt(paidScore) + '\n';
+
+      // Cap
+      var capValue = 100, capLabel = '不封顶';
+      if (paidDays < paidTargetDays * 0.3) { capValue = 60; capLabel = '档1: <30%目标 → 60'; }
+      else if (paidDays < paidTargetDays * 0.6) { capValue = 75; capLabel = '档2: <60%目标 → 75'; }
+      else if (paidDays < paidTargetDays) { capValue = 85; capLabel = '档3: <目标 → 85'; }
+      else { capValue = 100; capLabel = '不封顶'; }
+      var paidCapped = Math.min(paidScore, capValue);
+      trace += '集中消耗封顶: ' + paidDays + '天 → ' + capLabel + '\n';
+      trace += '封顶后 = MIN(' + ffmt(paidScore) + ', ' + capValue + ') = ' + ffmt(paidCapped) + '\n';
+
+      behaviorScore = Math.max(paidCapped, comateIndex);
+      trace += '\nAI 使用行为分 = MAX(' + ffmt(paidCapped) + ', ' + ffmt(comateIndex) + ') = ' + ffmt(behaviorScore) + '\n';
+
+      // Idle protection
+      var idleThreshold = fnum('f_idleThreshold');
+      var idleDiscount = fnum('f_idleDiscount');
+      var consecutiveIdle = f$('f_consecutiveIdle').value;
+      if (usageRate * 100 < idleThreshold) {
+        trace += '\n⚠ 付费额度使用率 ' + ffmt(usageRate * 100) + '% < ' + idleThreshold + '% → 资源适配预警\n';
+        if (consecutiveIdle === '2') {
+          var discounted = behaviorScore * (idleDiscount / 100);
+          trace += '⚠ 连续 2 周期闲置 → 行为分按 ' + idleDiscount + '% 折算: ' + ffmt(behaviorScore) + ' × ' + idleDiscount + '% = ' + ffmt(discounted) + '\n';
+          behaviorScore = discounted;
+        }
+      }
+    }
+
+    trace += '\n';
+
+    // Output score
+    var scoreEff = fnum('f_scoreEff');
+    var scoreAna = fnum('f_scoreAna');
+    var scoreAsset = fnum('f_scoreAsset');
+    var scoreTeam = fnum('f_scoreTeam');
+    var outputScore = scoreEff + scoreAna + scoreAsset + scoreTeam;
+
+    trace += '=== AI 有效产出分 ===\n';
+    trace += '提效 ' + scoreEff + ' + 分析 ' + scoreAna + ' + 资产 ' + scoreAsset + ' + 复用 ' + scoreTeam + ' = ' + ffmt(outputScore) + '\n\n';
+
+    // Consistency gate
+    var deviation = Math.abs(behaviorScore - outputScore);
+    var gateCheck = fnum('f_gateCheck');
+    var gateWarn = fnum('f_gateWarn');
+    var gateFloor = fnum('f_gateFloor');
+    var gateCap = fnum('f_gateCap');
+
+    trace += '=== 一致性门控 ===\n';
+    trace += '偏差 = |' + ffmt(behaviorScore) + ' - ' + ffmt(outputScore) + '| = ' + ffmt(deviation) + '\n';
+    if (deviation >= gateCheck) {
+      trace += '⚠ 偏差 ≥ ' + gateCheck + ' → 进入一致性校验\n';
+    } else if (deviation >= gateWarn) {
+      trace += '⚠ 偏差 ≥ ' + gateWarn + ' → 触发预警\n';
+    } else {
+      trace += '偏差正常\n';
+    }
+
+    // Final score
+    var finalScore = behaviorScore * wBehavior + outputScore * wOutput;
+    trace += '\n=== 最终指数 ===\n';
+    trace += '最终指数 = ' + ffmt(behaviorScore) + '×' + ffmt(wBehavior * 100) + '% + ' + ffmt(outputScore) + '×' + ffmt(wOutput * 100) + '% = ' + ffmt(finalScore) + '\n';
+
+    // Hard floor
+    if (outputScore < gateFloor) {
+      trace += '⚠ 产出分 ' + ffmt(outputScore) + ' < ' + gateFloor + ' → 最终指数封顶 ' + gateCap + '\n';
+      finalScore = Math.min(finalScore, gateCap);
+      trace += '最终指数 = MIN(' + ffmt(finalScore) + ', ' + gateCap + ') = ' + ffmt(finalScore) + '\n';
+    }
+
+    trace += '\n最终指数 = ' + ffmt(finalScore) + '\n';
+
+    // Render
+    f$('f_calcTrace').textContent = trace;
+
+    var grid = f$('f_resultGrid');
+    grid.innerHTML = '';
+    var cards = [
+      { label: 'AI 使用行为分', value: ffmt(behaviorScore), cls: '' },
+      { label: 'AI 有效产出分', value: ffmt(outputScore), cls: '' },
+      { label: '一致性偏差', value: ffmt(deviation), cls: deviation >= gateWarn ? 'warn' : '' },
+      { label: '最终指数', value: ffmt(finalScore), cls: 'highlight' }
+    ];
+    cards.forEach(function(c) {
+      var div = document.createElement('div');
+      div.className = 'result-card ' + c.cls;
+      div.innerHTML = '<div class="rc-label">' + c.label + '</div><div class="rc-value">' + c.value + '</div>';
+      grid.appendChild(div);
+    });
+
+    // Analysis
+    var analysis = '';
+    analysis += '<p>该员工最终指数为 <span class="hl-blue">' + ffmt(finalScore) + ' 分</span>（满分 100）。</p>';
+    analysis += '<p>AI 使用行为分 <span class="hl-blue">' + ffmt(behaviorScore) + '</span>（权重 ' + ffmt(wBehavior * 100) + '%），AI 有效产出分 <span class="hl-blue">' + ffmt(outputScore) + '</span>（权重 ' + ffmt(wOutput * 100) + '%）。</p>';
+
+    if (deviation >= gateCheck) {
+      analysis += '<p><span class="hl-red">一致性偏差 ' + ffmt(deviation) + ' 分，已触发一致性校验</span>。需要补充证据并进入复核流程。</p>';
+    } else if (deviation >= gateWarn) {
+      analysis += '<p><span class="warn-text">一致性偏差 ' + ffmt(deviation) + ' 分，已触发预警</span>。校准会议需关注。</p>';
+    } else {
+      analysis += '<p><span class="hl-green">一致性偏差 ' + ffmt(deviation) + ' 分，正常范围。</span></p>';
+    }
+
+    if (outputScore < gateFloor) {
+      analysis += '<p><span class="hl-red">产出分低于硬性下限（' + gateFloor + ' 分），最终指数封顶 ' + gateCap + ' 分。</span></p>';
+    }
+
+    var band = '', bandAction = '';
+    if (finalScore < 40) { band = '不足'; bandAction = 'AI 使用不足，需引导基础培训。'; }
+    else if (finalScore < 60) { band = '一般'; bandAction = '已开始使用，但沉淀不足，引导形成固定工作流。'; }
+    else if (finalScore < 80) { band = '良好'; bandAction = '使用较充分，鼓励沉淀 Agent、Skill、模板、SOP。'; }
+    else { band = '优秀'; bandAction = '高频有效使用，推广经验，纳入团队最佳实践。'; }
+    analysis += '<p>考核分档：<span class="hl-blue">' + band + '</span>。' + bandAction + '</p>';
+
+    f$('f_analysisBody').innerHTML = analysis;
+    f$('f_calcResults').style.display = 'block';
+  }
+
+  f$('f_btnCalculate').addEventListener('click', runCalcF);
+  f$('f_btnReset').addEventListener('click', function() {
+    var defaults = {
+      empType: 'B', poolAmount: 500, poolUsed: 400, paidDays: 10, paidTargetDays: 8,
+      cycleDays: 22, comateDays: 18, comateTokens: 220000, orgBaseline: 10000,
+      scoreEff: 15, scoreAna: 20, scoreAsset: 25, scoreTeam: 16,
+      wBehavior: 40, wUsage: 50, wComateActive: 60,
+      gateCheck: 25, gateWarn: 20, gateFloor: 40, gateCap: 50,
+      idleThreshold: 20, idleDiscount: 90, consecutiveIdle: 'no'
+    };
+    Object.keys(defaults).forEach(function(key) {
+      var el = f$('f_' + key);
+      if (el) {
+        el.value = defaults[key];
+        el.dispatchEvent(new Event('input'));
+        el.dispatchEvent(new Event('change'));
+      }
+    });
+    runCalcF();
+  });
+})();
+
+// ============================================================
+// SIMPLIFIED CALCULATOR (Tab 3, s_ prefix)
+// ============================================================
+(function() {
+  'use strict';
+  function s$(id) { return document.getElementById(id); }
+  function snum(id) { return parseFloat(s$(id).value) || 0; }
+  function sfmt(v) { return (Math.round(v * 100) / 100).toFixed(2); }
+
+  // Weight sliders
+  function wireWeightS(sliderId, dispId) {
+    var slider = s$(sliderId);
+    if (!slider) return;
+    function update() {
+      var v = parseInt(slider.value);
+      if (s$(dispId)) s$(dispId).textContent = v + '%';
+    }
+    slider.addEventListener('input', update);
+    slider.addEventListener('change', function() {
+      if (s$('s_calcResults').style.display === 'block') runCalcS();
+    });
+    update();
+  }
+  wireWeightS('s_wComateActive', 's_wComateActiveDisp');
+  wireWeightS('s_wUsage', 's_wUsageDisp');
+  wireWeightS('s_wComateMain', 's_wComateMainDisp');
+
+  // Merge mode toggle
+  s$('s_mergeMode').addEventListener('change', function() {
+    var weighted = this.value === 'weighted';
+    s$('s_mainWeightRow').style.display = weighted ? 'block' : 'none';
+    if (s$('s_calcResults').style.display === 'block') runCalcS();
+  });
+
+  function runCalcS() {
+    var empType = s$('s_empType').value;
+    var mergeMode = s$('s_mergeMode').value;
+    var wComateActive = snum('s_wComateActive') / 100;
+    var wComateStrength = 1 - wComateActive;
+    var wUsage = snum('s_wUsage') / 100;
+    var wActive = 1 - wUsage;
+    var wComateMain = snum('s_wComateMain') / 100;
+    var wPaidMain = 1 - wComateMain;
+    var cap1 = snum('s_cap1'), cap2 = snum('s_cap2'), cap3 = snum('s_cap3');
+    var idleThreshold = snum('s_idleThreshold');
+    var idleDiscount = snum('s_idleDiscount');
+    var consecutiveIdle = s$('s_consecutiveIdle').value;
+
+    var trace = '';
+
+    // Comate
+    var cycleDays = snum('s_cycleDays');
+    var comateDays = snum('s_comateDays');
+    var comateTokens = snum('s_comateTokens');
+    var orgBaseline = snum('s_orgBaseline');
+
+    var comateActiveRate = cycleDays > 0 ? Math.min(comateDays / cycleDays, 1) : 0;
+    var avgDailyToken = cycleDays > 0 ? comateTokens / cycleDays : 0;
+    var comateStrength = orgBaseline > 0 ? Math.min(avgDailyToken / orgBaseline, 1) : 0;
+    var comateScore = comateActiveRate * wComateActive * 100 + comateStrength * wComateStrength * 100;
+
+    trace += '=== Comate 用量分 ===\n';
+    trace += '有效活跃率 = ' + comateDays + ' / ' + cycleDays + ' = ' + sfmt(comateActiveRate * 100) + '%\n';
+    trace += '日均 Token = ' + sfmt(avgDailyToken) + '\n';
+    trace += '强度得分 = MIN(' + sfmt(avgDailyToken) + ' / ' + orgBaseline + ', 100%) = ' + sfmt(comateStrength * 100) + '%\n';
+    trace += 'Comate 用量分 = ' + sfmt(comateActiveRate * 100) + '×' + sfmt(wComateActive * 100) + '% + ' + sfmt(comateStrength * 100) + '×' + sfmt(wComateStrength * 100) + '% = ' + sfmt(comateScore) + '\n\n';
+
+    var finalScore = 0;
+    var paidScore = 0;
+
+    if (empType === 'A') {
+      finalScore = comateScore;
+      trace += '=== A 类员工 ===\n';
+      trace += 'AI 用量分 = Comate 用量分 = ' + sfmt(finalScore) + '\n';
+    } else {
+      // Paid channel
+      var poolAmount = snum('s_poolAmount');
+      var poolUsed = snum('s_poolUsed');
+      var paidDays = snum('s_paidDays');
+      var paidTargetDays = snum('s_paidTargetDays');
+
+      var usageRate = poolAmount > 0 ? Math.min(poolUsed / poolAmount, 1) : 0;
+      var activeRate = paidTargetDays > 0 ? Math.min(paidDays / paidTargetDays, 1) : 0;
+      paidScore = usageRate * wUsage * 100 + activeRate * wActive * 100;
+
+      trace += '=== 付费渠道用量分 ===\n';
+      trace += '使用率 = MIN(' + poolUsed + ' / ' + poolAmount + ', 100%) = ' + sfmt(usageRate * 100) + '%\n';
+      trace += '有效活跃率 = MIN(' + paidDays + ' / ' + paidTargetDays + ', 100%) = ' + sfmt(activeRate * 100) + '%\n';
+      trace += '付费渠道用量分 = ' + sfmt(usageRate * 100) + '×' + sfmt(wUsage * 100) + '% + ' + sfmt(activeRate * 100) + '×' + sfmt(wActive * 100) + '% = ' + sfmt(paidScore) + '\n';
+
+      // Cap
+      var capValue = 100, capLabel = '不封顶';
+      if (paidDays < paidTargetDays * 0.3) { capValue = cap1; capLabel = '档1: <30%目标 → ' + cap1; }
+      else if (paidDays < paidTargetDays * 0.6) { capValue = cap2; capLabel = '档2: <60%目标 → ' + cap2; }
+      else if (paidDays < paidTargetDays) { capValue = cap3; capLabel = '档3: <目标 → ' + cap3; }
+      else { capValue = 100; capLabel = '不封顶'; }
+      var paidCapped = Math.min(paidScore, capValue);
+      trace += '集中消耗封顶: ' + paidDays + '天 → ' + capLabel + '\n';
+      trace += '封顶后 = MIN(' + sfmt(paidScore) + ', ' + capValue + ') = ' + sfmt(paidCapped) + '\n\n';
+
+      // Merge
+      trace += '=== 合并计算 ===\n';
+      if (mergeMode === 'max') {
+        finalScore = Math.max(paidCapped, comateScore);
+        trace += '模式: 取最大值\n';
+        trace += 'AI 用量分 = MAX(' + sfmt(paidCapped) + ', ' + sfmt(comateScore) + ') = ' + sfmt(finalScore) + '\n';
+      } else {
+        finalScore = comateScore * wComateMain + paidCapped * wPaidMain;
+        trace += '模式: 加权合并\n';
+        trace += 'AI 用量分 = ' + sfmt(comateScore) + '×' + sfmt(wComateMain * 100) + '% + ' + sfmt(paidCapped) + '×' + sfmt(wPaidMain * 100) + '% = ' + sfmt(finalScore) + '\n';
+      }
+
+      // Idle protection
+      if (usageRate * 100 < idleThreshold) {
+        trace += '\n⚠ 付费额度使用率 ' + sfmt(usageRate * 100) + '% < ' + idleThreshold + '% → 资源适配预警\n';
+        if (consecutiveIdle === 'yes') {
+          var discounted = finalScore * (idleDiscount / 100);
+          trace += '⚠ 连续 2 周期闲置 → 用量分按 ' + idleDiscount + '% 折算: ' + sfmt(finalScore) + ' × ' + idleDiscount + '% = ' + sfmt(discounted) + '\n';
+          finalScore = discounted;
+        }
+      }
+    }
+
+    trace += '\n=== 最终结果 ===\n';
+    trace += 'AI 用量分 = ' + sfmt(finalScore) + '\n';
+
+    // Render
+    s$('s_calcTrace').textContent = trace;
+
+    var grid = s$('s_resultGrid');
+    grid.innerHTML = '';
+    var cards = [];
+    if (empType === 'B') {
+      cards.push({ label: 'Comate 用量分', value: sfmt(comateScore), cls: '' });
+      cards.push({ label: '付费渠道用量分', value: sfmt(paidScore), cls: '' });
+      cards.push({ label: 'AI 用量分（统一）', value: sfmt(finalScore), cls: 'highlight' });
+    } else {
+      cards.push({ label: 'Comate 有效活跃率', value: sfmt(comateActiveRate * 100) + '%', cls: '' });
+      cards.push({ label: 'Comate 强度得分', value: sfmt(comateStrength * 100) + '%', cls: '' });
+      cards.push({ label: 'AI 用量分（统一）', value: sfmt(finalScore), cls: 'highlight' });
+    }
+    cards.forEach(function(c) {
+      var div = document.createElement('div');
+      div.className = 'result-card ' + c.cls;
+      div.innerHTML = '<div class="rc-label">' + c.label + '</div><div class="rc-value">' + c.value + '</div>';
+      grid.appendChild(div);
+    });
+
+    // Analysis
+    var analysis = '';
+    analysis += '<p>该员工 AI 用量分为 <span class="hl-blue">' + sfmt(finalScore) + ' 分</span>（满分 100）。</p>';
+
+    if (empType === 'B') {
+      var dominant = paidScore >= comateScore ? '付费渠道' : 'Comate';
+      var diff = Math.abs(paidScore - comateScore);
+      analysis += '<p>Comate 用量分 <span class="hl-blue">' + sfmt(comateScore) + '</span>，付费渠道用量分 <span class="hl-blue">' + sfmt(paidScore) + '</span>。';
+      if (mergeMode === 'max') {
+        analysis += '主渠道为 <span class="hl-blue">' + dominant + '</span>（高出 ' + sfmt(diff) + ' 分）。</p>';
+      } else {
+        analysis += '加权合并：Comate ' + sfmt(wComateMain * 100) + '% + 付费 ' + sfmt(wPaidMain * 100) + '%。</p>';
+      }
+      if (paidScore > comateScore * 1.5) {
+        analysis += '<p><span class="hl-green">付费渠道使用充分</span>，Comate 使用相对较少，符合全渠道员工特征。</p>';
+      } else if (comateScore > paidScore * 1.5) {
+        analysis += '<p>Comate 使用为主，付费渠道使用较少。</p>';
+        var usageRatePct = (poolAmount > 0 ? Math.min(poolUsed / poolAmount, 1) : 0) * 100;
+        if (usageRatePct < idleThreshold) {
+          analysis += '<p><span class="hl-red">付费资源闲置预警</span>：使用率 ' + sfmt(usageRatePct) + '% 低于 ' + idleThreshold + '% 阈值';
+          if (consecutiveIdle === 'yes') {
+            analysis += '，已触发连续闲置 ' + idleDiscount + '% 折算。</p>';
+          } else {
+            analysis += '，本期仅预警。</p>';
+          }
+        }
+      } else {
+        analysis += '<p>两个渠道使用较为均衡。</p>';
+      }
+    } else {
+      analysis += '<p>有效活跃率 <span class="hl-blue">' + sfmt(comateActiveRate * 100) + '%</span>，强度得分 <span class="hl-blue">' + sfmt(comateStrength * 100) + '%</span>。</p>';
+      if (comateStrength < 0.3) {
+        analysis += '<p><span class="hl-red">强度偏低</span>，日均 Token 仅为组织基线的 ' + sfmt(comateStrength * 100) + '%，建议提升使用深度。</p>';
+      } else if (comateStrength >= 0.8) {
+        analysis += '<p><span class="hl-green">使用强度充分</span>，日均 Token 达到或超过组织基线。</p>';
+      }
+      if (comateActiveRate < 0.5) {
+        analysis += '<p>活跃天数偏低（' + comateDays + '/' + cycleDays + '天），建议提升使用连续性。</p>';
+      }
+    }
+
+    var band = '', bandAction = '';
+    if (finalScore < 40) { band = '不足'; bandAction = '需引导基础使用。'; }
+    else if (finalScore < 60) { band = '一般'; bandAction = '建议提升使用频率和深度。'; }
+    else if (finalScore < 80) { band = '良好'; bandAction = '使用较充分。'; }
+    else { band = '优秀'; bandAction = '高频有效使用。'; }
+    analysis += '<p>用量评级：<span class="hl-blue">' + band + '</span>。' + bandAction + '</p>';
+
+    s$('s_analysisBody').innerHTML = analysis;
+    s$('s_calcResults').style.display = 'block';
+  }
+
+  s$('s_btnCalculate').addEventListener('click', runCalcS);
+  s$('s_btnReset').addEventListener('click', function() {
+    var defaults = {
+      empType: 'B', mergeMode: 'max',
+      poolAmount: 500, poolUsed: 400, paidDays: 10, paidTargetDays: 8,
+      cycleDays: 22, comateDays: 18, comateTokens: 220000, orgBaseline: 10000,
+      wComateActive: 60, wUsage: 50, wComateMain: 50,
+      cap1: 60, cap2: 75, cap3: 85,
+      idleThreshold: 20, idleDiscount: 90, consecutiveIdle: 'no'
+    };
+    Object.keys(defaults).forEach(function(key) {
+      var el = s$('s_' + key);
+      if (el) {
+        el.value = defaults[key];
+        el.dispatchEvent(new Event('input'));
+        el.dispatchEvent(new Event('change'));
+      }
+    });
+    runCalcS();
+  });
+})();
+
+// ============================================================
+// INIT
+// ============================================================
+switchTab('formula');
+</script>
+</body>
+</html>
